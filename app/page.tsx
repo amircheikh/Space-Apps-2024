@@ -2,6 +2,7 @@
 
 import { Space } from '@/components/canvas/space';
 import { View } from '@/components/canvas/View';
+import { Panel } from '@/components/panel';
 import { CameraMovementContextProvider } from '@/components/provider/camera';
 import { StartScreen } from '@/components/start';
 import { Html, Hud } from '@react-three/drei';
@@ -13,6 +14,7 @@ import { Header } from '@/components/canvas/Header';
 
 export default function Page() {
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showPanel, setShowPanel] = useState(false);
 
   useSound(ambience, { loop: true, autoplay: true });
   const queryClient = new QueryClient();

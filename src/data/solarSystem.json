@@ -1,0 +1,102 @@
+{
+  "solarSystem": [
+    {
+      "name": "Sun",
+      "type": "Star",
+      "description": "The Sun is the star at the center of our solar system. It provides the energy necessary for life on Earth through nuclear fusion reactions in its core.",
+      "temperature": "5,500°C (surface), 15,000,000°C (core)",
+      "diameter": "1,392,700 km",
+      "mass": "1.989 × 10^30 kg",
+      "age": "4.6 billion years",
+      "orbitalPeriod": "N/A"
+    },
+    {
+      "name": "Mercury",
+      "type": "Planet",
+      "description": "Mercury is the smallest planet in the solar system and closest to the Sun. Its surface is covered with craters, and it has a very thin atmosphere.",
+      "temperature": "-173°C to 427°C",
+      "orbitalPeriod": "88 Earth days",
+      "diameter": "4,880 km",
+      "mass": "3.30 × 10^23 kg",
+      "gravity": "3.7 m/s²",
+      "expeditions": "NASA's Mariner 10 (1974-75) and MESSENGER (2004-2015) missions mapped and studied the planet's surface and atmosphere."
+    },
+    {
+      "name": "Venus",
+      "type": "Planet",
+      "description": "Venus is similar in size to Earth but has a thick atmosphere composed mainly of carbon dioxide, resulting in extreme surface temperatures and pressure.",
+      "temperature": "465°C",
+      "orbitalPeriod": "225 Earth days",
+      "diameter": "12,104 km",
+      "mass": "4.87 × 10^24 kg",
+      "gravity": "8.87 m/s²",
+      "expeditions": "NASA's Magellan mission (1989-1994) mapped the planet's surface using radar."
+    },
+    {
+      "name": "Earth",
+      "type": "Planet",
+      "description": "Earth is the only planet known to support life, with liquid water on its surface and a breathable atmosphere. It is the third planet from the Sun.",
+      "temperature": "-88°C to 58°C",
+      "orbitalPeriod": "365.25 Earth days",
+      "diameter": "12,742 km",
+      "mass": "5.97 × 10^24 kg",
+      "gravity": "9.8 m/s²",
+      "expeditions": "Earth has been continuously studied by various satellites and space stations, including the ISS (International Space Station)."
+    },
+    {
+      "name": "Mars",
+      "type": "Planet",
+      "description": "Mars is a rocky planet with a thin atmosphere, home to the largest volcano and canyon in the solar system. It's known for its red color, caused by iron oxide on its surface.",
+      "temperature": "-87°C to -5°C",
+      "orbitalPeriod": "687 Earth days",
+      "diameter": "6,779 km",
+      "mass": "6.42 × 10^23 kg",
+      "gravity": "3.71 m/s²",
+      "expeditions": "NASA's rovers, including Curiosity (2012) and Perseverance (2021), have been exploring Mars' surface."
+    },
+    {
+      "name": "Jupiter",
+      "type": "Planet",
+      "description": "Jupiter is the largest planet in the solar system, known for its giant storms, including the Great Red Spot. It is a gas giant primarily composed of hydrogen and helium.",
+      "temperature": "-108°C",
+      "orbitalPeriod": "12 Earth years",
+      "diameter": "139,820 km",
+      "mass": "1.90 × 10^27 kg",
+      "gravity": "24.79 m/s²",
+      "expeditions": "NASA's Juno mission (2016-present) is studying Jupiter's atmosphere and magnetic field."
+    },
+    {
+      "name": "Saturn",
+      "type": "Planet",
+      "description": "Saturn is famous for its stunning ring system made up of ice particles and rocky debris. It is a gas giant like Jupiter, with a similar composition.",
+      "temperature": "-139°C",
+      "orbitalPeriod": "29.5 Earth years",
+      "diameter": "116,460 km",
+      "mass": "5.68 × 10^26 kg",
+      "gravity": "10.44 m/s²",
+      "expeditions": "NASA's Cassini mission (1997-2017) provided detailed studies of Saturn and its rings."
+    },
+    {
+      "name": "Uranus",
+      "type": "Planet",
+      "description": "Uranus is an ice giant with a blue-green hue due to the presence of methane in its atmosphere. It rotates on its side, making its axis nearly parallel to its orbital plane.",
+      "temperature": "-195°C",
+      "orbitalPeriod": "84 Earth years",
+      "diameter": "50,724 km",
+      "mass": "8.68 × 10^25 kg",
+      "gravity": "8.87 m/s²",
+      "expeditions": "NASA's Voyager 2 (1986) is the only spacecraft to have flown by Uranus."
+    },
+    {
+      "name": "Neptune",
+      "type": "Planet",
+      "description": "Neptune is the farthest planet from the Sun and is known for its deep blue color. It has the strongest winds in the solar system, with speeds reaching up to 2,100 km/h.",
+      "temperature": "-200°C",
+      "orbitalPeriod": "165 Earth years",
+      "diameter": "49,244 km",
+      "mass": "1.02 × 10^26 kg",
+      "gravity": "11.15 m/s²",
+      "expeditions": "NASA's Voyager 2 (1989) is the only spacecraft to have visited Neptune."
+    }
+  ]
+}
