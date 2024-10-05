@@ -12,7 +12,7 @@ export function Header() {
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
-    <div className='w-full h-16 bg-white/5 items-center flex px-10 gap-6 justify-between'>
+    <div className='w-full h-16 items-center flex px-10 gap-6 justify-between'>
       <div className='items-center flex px-10 gap-6 z-1'>
         <img src='/spongebob-chair.png' className='h-8 w-auto' />
         <h1 className='text-2xl font-semibold text-white'>Nasa Space Apps 2024</h1>

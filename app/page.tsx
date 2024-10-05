@@ -19,7 +19,7 @@ export default function Page() {
 
   return (
     <div className='flex size-full overflow-hidden bg-black'>
-      <div className='absolute top-0 w-full'>
+      <div className='absolute top-0 z-10 w-full'>
         <Header />
       </div>
       <View className='size-full overflow-hidden'>
