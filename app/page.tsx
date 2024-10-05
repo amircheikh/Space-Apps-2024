@@ -2,7 +2,6 @@
 
 import { Space } from '@/components/canvas/space';
 import { View } from '@/components/canvas/View';
-import { Panel } from '@/components/panel';
 import { CameraMovementContextProvider } from '@/components/provider/camera';
 import { StartScreen } from '@/components/start';
 import { Html, Hud } from '@react-three/drei';
@@ -11,10 +10,10 @@ import { Suspense, useState } from 'react';
 import useSound from 'use-sound';
 import ambience from '../src/sounds/ambience.mp3';
 import { Header } from '@/components/canvas/Header';
+import { Panel } from '@/components/panel';
 
 export default function Page() {
   const [showStartScreen, setShowStartScreen] = useState(true);
-  const [showPanel, setShowPanel] = useState(false);
 
   useSound(ambience, { loop: true, autoplay: true });
   const queryClient = new QueryClient();
