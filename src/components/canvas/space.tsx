@@ -18,6 +18,9 @@ interface SpaceProps {
 
 export function Space(props: SpaceProps) {
   const sun = useGLTF("/planets/sun/scene.gltf");
+  const mercury = useGLTF("/planets/mercury/scene.gltf");
+  const venus = useGLTF("/planets/venus/scene.gltf");
+  const earth = useGLTF("/planets/earth/scene.gltf");
   const { showStartScreen} = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
@@ -48,6 +51,9 @@ export function Space(props: SpaceProps) {
         <OrbitControls />
       {/* PUT PLANETS HERE */}
       <Planet model={sun} position={[0, 0, 0]} name="Sun" onClick={handleZoomCamera} />
+      <Planet model={mercury} position={[0, 1, 0]} name="Mercury" onClick={handleZoomCamera} />
+      <Planet model={venus} position={[0, 2, 0]} name="Venus" onClick={handleZoomCamera} />
+      <Planet model={earth} position={[0, 3, 0]} name="Earth" onClick={handleZoomCamera} />
 
       <primitive object={sun.scene} scale={[0.1, 0.1, 0.1]} position={[0, 0, 0]} />
       </group>
