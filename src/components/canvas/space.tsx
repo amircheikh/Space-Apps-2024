@@ -7,6 +7,7 @@ import { MathUtils } from 'three';
 import { useCameraMovement } from '../provider/camera';
 import { StarBackground } from './star-background';
 import { useGLTF } from '@react-three/drei';
+import { Planet} from './Planet'
 
 import { useScreenSize } from '@/helpers/hooks/screen-size';
 
@@ -16,7 +17,7 @@ interface SpaceProps {
 }
 
 export function Space(props: SpaceProps) {
-  const sun = useGLTF("/scene.gltf");
+  const sun = useGLTF("/planets/sun/scene.gltf");
   const { showStartScreen} = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
@@ -46,6 +47,8 @@ export function Space(props: SpaceProps) {
       <group visible={!showStartScreen}>
         <OrbitControls />
       {/* PUT PLANETS HERE */}
+      <Planet model={sun} position={[0, 0, 0]} name="Sun" onClick={handleZoomCamera} />
+
       <primitive object={sun.scene} scale={[0.1, 0.1, 0.1]} position={[0, 0, 0]} />
       </group>
     </group>
