@@ -1,12 +1,9 @@
 import { PointMaterial, Points } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
 import { random } from 'maath';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
-import { useCameraMovement } from '../provider/camera';
 
 export function StarBackground() {
-  const { targetPosition } = useCameraMovement();
   const ref = useRef<THREE.Points>();
   const [sphere] = useState(() => random.inSphere(new Float32Array(5001), { radius: 3 }));
 
@@ -15,10 +12,9 @@ export function StarBackground() {
   //   ref.current.rotation.y -= delta / 15;
   // });
 
-
   //TODO: we should adjust the stars to match the rest of the scene
   return (
-    <group rotation={[0, 0, Math.PI / 4]} position={targetPosition}>
+    <group rotation={[0, 0, Math.PI / 4]}>
       <Points ref={ref} positions={sphere as Float32Array} stride={3} frustumCulled>
         <PointMaterial transparent color='#f272c8' size={0.006} sizeAttenuation={true} depthWrite={true} />
       </Points>

@@ -1,14 +1,12 @@
-import { colors } from '@/constants/colors';
-import { PointMaterial, Points, Text } from '@react-three/drei';
-import { ObjectMap, useFrame, Vector3 } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { Text } from '@react-three/drei';
+import { ObjectMap, Vector3 } from '@react-three/fiber';
+import { useRef, useState } from 'react';
 import * as THREE from 'three';
-import { MathUtils } from 'three';
+import { GLTF } from 'three-stdlib';
 import useSound from 'use-sound';
 import click from '../../sounds/click-1.mp3';
 import fly from '../../sounds/fly-1.mp3';
 import hover from '../../sounds/hover-1.mp3';
-import { GLTF } from 'three-stdlib';
 
 interface PlanetProps {
   model?: GLTF & ObjectMap;
@@ -16,7 +14,6 @@ interface PlanetProps {
   name?: string;
   onClick?: (position: Vector3) => void;
 }
-
 
 export function Planet(props: PlanetProps) {
   const { name, model, position, onClick } = props;
@@ -33,28 +30,28 @@ export function Planet(props: PlanetProps) {
   const [playClick] = useSound(click);
   const [playFly] = useSound(fly);
 
-//   useFrame((state, delta) => {
-//     const hoverEffectSpeed = 15 * delta;
-//     const hoverScale = 1.1;
+  //   useFrame((state, delta) => {
+  //     const hoverEffectSpeed = 15 * delta;
+  //     const hoverScale = 1.1;
 
-//     const time = state.clock.getElapsedTime();
+  //     const time = state.clock.getElapsedTime();
 
-//     shapeRef.current.rotation.x = Math.sin(time) / 3;
-//     shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
-//     shapeRef.current.rotation.z = Math.sin(time) / 10;
+  //     shapeRef.current.rotation.x = Math.sin(time) / 3;
+  //     shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
+  //     shapeRef.current.rotation.z = Math.sin(time) / 10;
 
-//     groupRef.current.scale.x = hovered
-//       ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
-//       : MathUtils.lerp(groupRef.current.scale.x, 1, hoverEffectSpeed);
+  //     groupRef.current.scale.x = hovered
+  //       ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
+  //       : MathUtils.lerp(groupRef.current.scale.x, 1, hoverEffectSpeed);
 
-//     groupRef.current.scale.y = hovered
-//       ? MathUtils.lerp(groupRef.current.scale.y, hoverScale, hoverEffectSpeed)
-//       : MathUtils.lerp(groupRef.current.scale.y, 1, hoverEffectSpeed);
+  //     groupRef.current.scale.y = hovered
+  //       ? MathUtils.lerp(groupRef.current.scale.y, hoverScale, hoverEffectSpeed)
+  //       : MathUtils.lerp(groupRef.current.scale.y, 1, hoverEffectSpeed);
 
-//     groupRef.current.scale.z = hovered
-//       ? MathUtils.lerp(groupRef.current.scale.z, hoverScale, hoverEffectSpeed)
-//       : MathUtils.lerp(groupRef.current.scale.z, 1, hoverEffectSpeed);
-//   });
+  //     groupRef.current.scale.z = hovered
+  //       ? MathUtils.lerp(groupRef.current.scale.z, hoverScale, hoverEffectSpeed)
+  //       : MathUtils.lerp(groupRef.current.scale.z, 1, hoverEffectSpeed);
+  //   });
 
   const handlePointerEnter = () => {
     playHover({ playbackRate: 0.7 + Math.random() * (1.1 - 0.7) });
