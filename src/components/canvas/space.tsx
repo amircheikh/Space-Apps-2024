@@ -54,7 +54,6 @@ export function Space(props: SpaceProps) {
         <Planet model={venus} position={[0, 2, 0]} name='Venus' onClick={handleZoomCamera} />
         <Planet model={earth} position={[0, 3, 0]} name='Earth' onClick={handleZoomCamera} />
 
-        <primitive object={sun.scene} scale={[0.1, 0.1, 0.1]} position={[0, 0, 0]} />
         <PlanetOrbit lRad={2} wRad={2} roation={[2, 0, 0]} />
       </group>
     </group>
