@@ -10,20 +10,44 @@ import { useScreenSize } from '@/helpers/hooks/screen-size';
 import { Planet } from './planet/planet';
 import { PlanetWithOrbit } from './planet/planet-with-orbit';
 
-interface SpaceProps {
+export interface SpaceProps {
   showStartScreen: boolean;
+  onPlanetClick: (planetName: string) => void;
 }
+
+const planetPositions: { [key: string]: THREE.Vector3 } = {
+  Sun: new THREE.Vector3(0, 0, 0),
+  Mercury: new THREE.Vector3(0, 1, 0),
+  Venus: new THREE.Vector3(0, 2, 0),
+  Earth: new THREE.Vector3(0, 3, 0),
+  Mars: new THREE.Vector3(0, 4, 0),
+  Jupiter: new THREE.Vector3(0, 5, 0),
+  Saturn: new THREE.Vector3(0, 6, 0),
+  Uranus: new THREE.Vector3(0, 7, 0),
+  Neptune: new THREE.Vector3(0, 8, 0),
+};
 
 export function Space(props: SpaceProps) {
   const sun = useGLTF('/planets/sun/scene.gltf');
 
-  const { showStartScreen } = props;
+
+  const { showStartScreen, onPlanetClick } = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
   const { cameraControlRef, cameraDefaultRotation, handleZoomCamera } = useCameraMovement();
 
   const screenSize = useScreenSize();
   const isSmallScreen = screenSize.width < 1280;
+
+  const handlePlanetClick = (planetName: string) => {
+    const position = planetPositions[planetName];
+    if (position) {
+      handleZoomCamera(position);
+      onPlanetClick(planetName);
+    } else {
+      console.warn(`Unknown planet: ${planetName}`);
+    }
+  };
 
   return (
     <group>
