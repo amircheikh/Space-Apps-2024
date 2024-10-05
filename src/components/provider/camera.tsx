@@ -4,7 +4,6 @@ import { Euler, Vector3 } from 'three';
 
 interface ICameraMovementContext {
   cameraControlRef: React.MutableRefObject<CameraControls>;
-  cameraDefaultPos: Vector3;
   cameraDefaultRotation: Euler;
   cameraDefaultSpeed: number;
   handleResetCamera: VoidFunction;
@@ -14,7 +13,6 @@ interface ICameraMovementContext {
 export const CameraMovementContext = createContext<ICameraMovementContext>({} as ICameraMovementContext);
 
 export function CameraMovementContextProvider(props: { children: React.ReactNode }) {
-  const cameraDefaultPos = useMemo(() => new Vector3(0, 0, 4), []);
   const cameraDefaultRotation = useMemo(() => new Euler(0, 0, 0), []);
   const cameraDefaultSpeed = useMemo(() => 8, []);
 
@@ -27,13 +25,13 @@ export function CameraMovementContextProvider(props: { children: React.ReactNode
   };
 
   const handleResetCamera = () => {
-    cameraControlRef.current.moveTo(cameraDefaultPos.x, cameraDefaultPos.y, cameraDefaultPos.z, true);
+    cameraControlRef.current.moveTo(0, 0, 0);
+    cameraControlRef.current.dollyTo(4, true);
   };
 
   const memoizedContext = useMemo(
     () => ({
       cameraControlRef,
-      cameraDefaultPos,
       cameraDefaultRotation,
       cameraDefaultSpeed,
       handleResetCamera,
