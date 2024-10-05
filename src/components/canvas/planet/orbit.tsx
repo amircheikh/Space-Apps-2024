@@ -9,10 +9,11 @@ interface PlanetOrbitProps {
   rotation?: Euler;
   color?: string;
   lineWidth?: number;
+  onClick?: () => void;
 }
 
 export function PlanetOrbit(props: PlanetOrbitProps) {
-  const { sMajor, sMinor, position = [0, 0, 0], rotation = [0, 0, 0], color = 'white', lineWidth = 2 } = props;
+  const { sMajor, sMinor, position = [0, 0, 0], rotation = [0, 0, 0], color = 'white', lineWidth = 2, onClick } = props;
 
   const ellipseCurve = new THREE.EllipseCurve(
     0, // center X (relative to orbit center)
@@ -28,5 +29,14 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
   const points = ellipseCurve.getPoints(50);
   const ellipsePoints = points.map((point) => new THREE.Vector3(point.x, point.y, 0));
 
-  return <Line position={position} rotation={rotation} points={ellipsePoints} color={color} lineWidth={lineWidth} />;
+  return (
+    <Line
+      position={position}
+      rotation={rotation}
+      onClick={onClick}
+      points={ellipsePoints}
+      color={color}
+      lineWidth={lineWidth}
+    />
+  );
 }

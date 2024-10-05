@@ -2,8 +2,8 @@ import { useGLTF } from '@react-three/drei';
 import { Vector3 } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { PlanetOrbit } from './Orbit';
-import { Planet } from './Planet';
+import { PlanetOrbit } from './orbit';
+import { Planet } from './planet';
 import { planetOrbitalData } from './types';
 
 interface PlanetWithOrbitProps {
@@ -11,7 +11,8 @@ interface PlanetWithOrbitProps {
   name: keyof typeof planetOrbitalData;
   orbitPosition?: THREE.Vector3;
   orbitRotation?: THREE.Euler;
-  planetPosition?: [number, number, number];
+  modelPosition?: Vector3;
+  scale?: Vector3;
   onClick?: (position: Vector3) => void;
 }
 
@@ -20,7 +21,8 @@ export function PlanetWithOrbit({
   name,
   orbitPosition = new THREE.Vector3(0, 0, 0),
   orbitRotation = new THREE.Euler(0, 0, 0),
-  planetPosition,
+  modelPosition,
+  scale,
   onClick,
 }: PlanetWithOrbitProps) {
   const planetModel = useGLTF(modelUrl);
@@ -44,8 +46,21 @@ export function PlanetWithOrbit({
 
   return (
     <group>
-      <Planet model={planetModel} position={planetPos} name={name} onClick={onClick} />
-      <PlanetOrbit sMajor={sMajor} sMinor={sMinor} position={orbitPosition} rotation={orbitRotation} />
+      <Planet
+        model={planetModel}
+        position={planetPos}
+        name={name}
+        modelPosition={modelPosition}
+        scale={scale}
+        onClick={onClick}
+      />
+      <PlanetOrbit
+        sMajor={sMajor}
+        sMinor={sMinor}
+        position={orbitPosition}
+        rotation={orbitRotation}
+        onClick={() => console.log(name)}
+      />
     </group>
   );
 }

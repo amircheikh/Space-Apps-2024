@@ -12,11 +12,13 @@ interface PlanetProps {
   model?: GLTF & ObjectMap;
   position?: Vector3;
   name?: string;
+  modelPosition?: Vector3;
+  scale?: Vector3;
   onClick?: (position: Vector3) => void;
 }
 
 export function Planet(props: PlanetProps) {
-  const { name, model, position, onClick } = props;
+  const { name, model, position, modelPosition, scale, onClick } = props;
   const starSize = 0.015;
 
   const groupRef = useRef<THREE.Group>();
@@ -83,7 +85,7 @@ export function Planet(props: PlanetProps) {
         <meshBasicMaterial opacity={0} transparent depthWrite={false} />
       </mesh>
 
-      <primitive object={model.scene} scale={[0.1, 0.1, 0.1]} position={[0, 0, 0]} />
+      <primitive object={model.scene} scale={scale} position={modelPosition} />
 
       <Text ref={textRef} scale={0.1} position={[0, -0.6, 0]}>
         {name}
