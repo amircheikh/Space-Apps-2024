@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { useRef } from 'react';
 
 import { useFrame } from '@react-three/fiber';
@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { MathUtils } from 'three';
 import { useCameraMovement } from '../provider/camera';
 import { StarBackground } from './star-background';
+import { useGLTF } from '@react-three/drei';
 
 import { useScreenSize } from '@/helpers/hooks/screen-size';
 
@@ -15,6 +16,7 @@ interface SpaceProps {
 }
 
 export function Space(props: SpaceProps) {
+  const sun = useGLTF("/scene.gltf");
   const { showStartScreen} = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
@@ -39,11 +41,12 @@ export function Space(props: SpaceProps) {
     <group>
       <PerspectiveCamera ref={cameraRef} makeDefault position={cameraInitialPos} rotation={cameraDefaultRotation} />
       <ambientLight intensity={0.5} />
-
       <StarBackground />
 
       <group visible={!showStartScreen}>
+        <OrbitControls />
       {/* PUT PLANETS HERE */}
+      <primitive object={sun.scene} scale={[0.1, 0.1, 0.1]} position={[0, 0, 0]} />
       </group>
     </group>
   );

@@ -10,10 +10,10 @@ export function StarBackground() {
   const ref = useRef<THREE.Points>();
   const [sphere] = useState(() => random.inSphere(new Float32Array(5001), { radius: 3 }));
 
-  useFrame((_, delta) => {
-    ref.current.rotation.x -= delta / 10;
-    ref.current.rotation.y -= delta / 15;
-  });
+  // useFrame((_, delta) => {
+  //   ref.current.rotation.x -= delta / 10;
+  //   ref.current.rotation.y -= delta / 15;
+  // });
 
 
   //TODO: we should adjust the stars to match the rest of the scene
