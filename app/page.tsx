@@ -10,6 +10,7 @@ import { Suspense, useState } from 'react';
 import useSound from 'use-sound';
 import ambience from '../src/sounds/ambience.mp3';
 import { Header } from '@/components/canvas/Header';
+import { Panel } from '@/components/panel';
 
 export default function Page() {
   const [showStartScreen, setShowStartScreen] = useState(true);
