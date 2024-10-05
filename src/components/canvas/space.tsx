@@ -4,11 +4,11 @@ import { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { useCameraMovement } from '../provider/camera';
-import { Planet } from './Planet';
 import { StarBackground } from './star-background';
 
 import { useScreenSize } from '@/helpers/hooks/screen-size';
-import { PlanetOrbit } from './planet-orbit';
+import { Planet } from './planet/Planet';
+import { PlanetWithOrbit } from './planet/planet-with-orbit';
 
 interface SpaceProps {
   showStartScreen: boolean;
@@ -41,19 +41,34 @@ export function Space(props: SpaceProps) {
       <StarBackground />
 
       <group visible={!showStartScreen}>
-        {/* PUT PLANETS HERE */}
         <CameraControls ref={cameraControlRef} />
-        <Planet model={sun} position={[0, 0, 0]} name='Sun' onClick={handleZoomCamera} />
-        <Planet model={mercury} position={[0, 1, 0]} name='Mercury' onClick={handleZoomCamera} />
-        <Planet model={venus} position={[0, 2, 0]} name='Venus' onClick={handleZoomCamera} />
-        <Planet model={earth} position={[0, 3, 0]} name='Earth' onClick={handleZoomCamera} />
-        <Planet model={mars} position={[0, 4, 0]} name='Mars' onClick={handleZoomCamera} />
-        <Planet model={jupiter} position={[0, 5, 0]} name='Jupiter' onClick={handleZoomCamera} />
-        <Planet model={saturn} position={[0, 6, 0]} name='Saturn' onClick={handleZoomCamera} />
-        <Planet model={uranus} position={[0, 7, 0]} name='Uranus' onClick={handleZoomCamera} />
-        <Planet model={neptune} position={[0, 8, 0]} name='Neptune' onClick={handleZoomCamera} />
 
-        <PlanetOrbit lRad={2} wRad={2} roation={[2, 0, 0]} />
+        {/* Sun */}
+        <Planet model={sun} position={[0, 0, 0]} name='Sun' onClick={handleZoomCamera} />
+
+        {/* Mercury */}
+        <PlanetWithOrbit modelUrl='/planets/mercury/scene.gltf' name='Mercury' onClick={handleZoomCamera} />
+
+        {/* Venus */}
+        <PlanetWithOrbit modelUrl='/planets/venus/scene.gltf' name='Venus' onClick={handleZoomCamera} />
+
+        {/* Earth */}
+        <PlanetWithOrbit modelUrl='/planets/earth/scene.gltf' name='Earth' onClick={handleZoomCamera} />
+
+        {/* Mars */}
+        <PlanetWithOrbit modelUrl='/planets/mars/scene.gltf' name='Mars' onClick={handleZoomCamera} />
+
+        {/* Jupiter */}
+        <PlanetWithOrbit modelUrl='/planets/jupiter/scene.gltf' name='Jupiter' onClick={handleZoomCamera} />
+
+        {/* Saturn */}
+        <PlanetWithOrbit modelUrl='/planets/saturn/scene.gltf' name='Saturn' onClick={handleZoomCamera} />
+
+        {/* Uranus */}
+        <PlanetWithOrbit modelUrl='/planets/uranus/scene.gltf' name='Uranus' onClick={handleZoomCamera} />
+
+        {/* Neptune */}
+        <PlanetWithOrbit modelUrl='/planets/neptune/scene.gltf' name='Neptune' onClick={handleZoomCamera} />
       </group>
     </group>
   );

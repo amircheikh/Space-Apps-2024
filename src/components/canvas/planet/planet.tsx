@@ -4,9 +4,9 @@ import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 import useSound from 'use-sound';
-import click from '../../sounds/click-1.mp3';
-import fly from '../../sounds/fly-1.mp3';
-import hover from '../../sounds/hover-1.mp3';
+import click from '../../../sounds/click-1.mp3';
+import fly from '../../../sounds/fly-1.mp3';
+import hover from '../../../sounds/hover-1.mp3';
 
 interface PlanetProps {
   model?: GLTF & ObjectMap;
