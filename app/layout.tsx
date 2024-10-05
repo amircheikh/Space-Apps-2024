@@ -2,8 +2,8 @@ import { Layout } from '@/components/dom/Layout';
 import '@/global.css';
 
 export const metadata = {
-  title: 'YOURNAME | Portfolio',
-  description: `YOURNAME's personal portfolio website. Made with Next.js and Three.js (React Three)`,
+  title: 'Space Apps 2024',
+  description: `Our Space Apps 2024 project`,
 };
 
 export default function RootLayout({ children }) {

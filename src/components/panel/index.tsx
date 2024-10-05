@@ -38,15 +38,15 @@ export function Panel(props: PanelProps) {
       style={{ opacity }}
       fullscreen
     >
-      <div className=' max-h-[90%] flex flex-col rounded-2xl px-5 py-5 bg-panel/10 space-y-2 overflow-hidden'>
-        <div className='h-fit text-textprimary font-medium text-start flex flex-col items-center text-3xl md:text-5xl'>
-          <div className='flex flex-row w-full justify-between'>
+      <div className=' flex max-h-[90%] flex-col space-y-2 overflow-hidden rounded-2xl bg-panel/10 p-5'>
+        <div className='flex h-fit flex-col items-center text-start text-3xl font-medium text-textprimary md:text-5xl'>
+          <div className='flex w-full flex-row justify-between'>
             <div>{title}</div>
             <BaseButton onClick={handleClose} isBack={true}>
               <FontAwesomeIcon icon={faTimes} color={colors.textsecondary} size={'sm'} />
             </BaseButton>
           </div>
-          <div className='w-full h-[1px] mt-4 bg-textsecondary/30' />
+          <div className='mt-4 h-px w-full bg-textsecondary/30' />
         </div>
         {children}
       </div>

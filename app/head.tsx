@@ -1,7 +1,7 @@
-const title = 'YOURNAME | Portfolio';
+const title = 'Space Apps 2024';
 const url = '/';
-const description = `YOURNAME's personal portfolio website. Made with Next.js and Three.js (React Three)`;
-const author = 'YOURNAME';
+const description = `Our Space Apps 2024 project`;
+const author = 'Team Timmy';
 
 export default function Head() {
   return (

@@ -18,9 +18,9 @@ export function StartScreen(props: { onClose: VoidFunction }) {
   };
 
   return (
-    <Html className='text-textprimary text-3xl md:text-4xl font-medium text-center' fullscreen>
+    <Html className='text-center text-3xl font-medium text-textprimary md:text-4xl' fullscreen>
       <BaseButton
-        className='w-full h-full flex items-end justify-center overflow-hidden px-4 py-24'
+        className='flex size-full items-end justify-center overflow-hidden px-4 py-24'
         onClick={handleClose}
       >
         <div className='pointer-events-none'>Press anywhere to begin</div>

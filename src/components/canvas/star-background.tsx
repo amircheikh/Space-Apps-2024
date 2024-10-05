@@ -15,10 +15,12 @@ export function StarBackground() {
     ref.current.rotation.y -= delta / 15;
   });
 
+
+  //TODO: we should adjust the stars to match the rest of the scene
   return (
     <group rotation={[0, 0, Math.PI / 4]} position={targetPosition}>
       <Points ref={ref} positions={sphere as Float32Array} stride={3} frustumCulled>
-        <PointMaterial transparent color='#f272c8' size={0.002} sizeAttenuation={true} depthWrite={true} />
+        <PointMaterial transparent color='#f272c8' size={0.006} sizeAttenuation={true} depthWrite={true} />
       </Points>
     </group>
   );
