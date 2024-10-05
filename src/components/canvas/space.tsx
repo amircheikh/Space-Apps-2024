@@ -21,6 +21,12 @@ export function Space(props: SpaceProps) {
   const mercury = useGLTF('/planets/mercury/scene.gltf');
   const venus = useGLTF('/planets/venus/scene.gltf');
   const earth = useGLTF('/planets/earth/scene.gltf');
+  const mars = useGLTF('/planets/mars/scene.gltf');
+  const jupiter = useGLTF('/planets/jupiter/scene.gltf');
+  const saturn = useGLTF('/planets/saturn/scene.gltf');
+  const uranus = useGLTF('/planets/uranus/scene.gltf');
+  const neptune = useGLTF('/planets/neptune/scene.gltf');
+
   const { showStartScreen } = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
@@ -53,6 +59,11 @@ export function Space(props: SpaceProps) {
         <Planet model={mercury} position={[0, 1, 0]} name='Mercury' onClick={handleZoomCamera} />
         <Planet model={venus} position={[0, 2, 0]} name='Venus' onClick={handleZoomCamera} />
         <Planet model={earth} position={[0, 3, 0]} name='Earth' onClick={handleZoomCamera} />
+        <Planet model={mars} position={[0, 4, 0]} name='Mars' onClick={handleZoomCamera} />
+        <Planet model={jupiter} position={[0, 5, 0]} name='Jupiter' onClick={handleZoomCamera} />
+        <Planet model={saturn} position={[0, 6, 0]} name='Saturn' onClick={handleZoomCamera} />
+        <Planet model={uranus} position={[0, 7, 0]} name='Uranus' onClick={handleZoomCamera} />
+        <Planet model={neptune} position={[0, 8, 0]} name='Neptune' onClick={handleZoomCamera} />
 
         <PlanetOrbit lRad={2} wRad={2} roation={[2, 0, 0]} />
       </group>
