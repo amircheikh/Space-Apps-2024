@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
 import useSound from 'use-sound';
 import ambience from '../src/sounds/ambience.mp3';
+import { Header } from '@/components/canvas/Header';
 
 export default function Page() {
   const [showStartScreen, setShowStartScreen] = useState(true);
@@ -16,12 +17,14 @@ export default function Page() {
   useSound(ambience, { loop: true, autoplay: true });
   const queryClient = new QueryClient();
 
-
   return (
     <div className='flex size-full overflow-hidden bg-black'>
+      <div className='absolute top-0 z-10 w-full'>
+        <Header />
+      </div>
       <View className='size-full overflow-hidden'>
         <QueryClientProvider client={queryClient}>
-          <CameraMovementContextProvider >
+          <CameraMovementContextProvider>
             <Suspense
               fallback={
                 <Html fullscreen>
@@ -31,13 +34,11 @@ export default function Page() {
                 </Html>
               }
             >
-              <Space
-                showStartScreen={showStartScreen}
-              />
+              <Space showStartScreen={showStartScreen} />
             </Suspense>
             <Hud>
               {showStartScreen && <StartScreen onClose={() => setShowStartScreen(false)} />}
-                {/* ALL 2D ELEMENTS GO HERE */}
+              {/* ALL 2D ELEMENTS GO HERE */}
             </Hud>
           </CameraMovementContextProvider>
         </QueryClientProvider>
