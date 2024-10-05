@@ -16,14 +16,6 @@ interface SpaceProps {
 
 export function Space(props: SpaceProps) {
   const sun = useGLTF('/planets/sun/scene.gltf');
-  const mercury = useGLTF('/planets/mercury/scene.gltf');
-  const venus = useGLTF('/planets/venus/scene.gltf');
-  const earth = useGLTF('/planets/earth/scene.gltf');
-  const mars = useGLTF('/planets/mars/scene.gltf');
-  const jupiter = useGLTF('/planets/jupiter/scene.gltf');
-  const saturn = useGLTF('/planets/saturn/scene.gltf');
-  const uranus = useGLTF('/planets/uranus/scene.gltf');
-  const neptune = useGLTF('/planets/neptune/scene.gltf');
 
   const { showStartScreen } = props;
 
@@ -44,20 +36,19 @@ export function Space(props: SpaceProps) {
         <CameraControls ref={cameraControlRef} />
 
         {/* Sun */}
-        <Planet model={sun} position={[0, 0, 0]} scale={[0.001, 0.001, 0.001]} name='Sun' onClick={handleZoomCamera} />
+        <Planet model={sun} position={[0, 0, 0]} scale={[0.01, 0.01, 0.01]} name='Sun' onClick={handleZoomCamera} />
 
         {/* Mercury */}
         <PlanetWithOrbit
           modelUrl='/planets/mercury/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
-          modelPosition={[0, 0, 0]}
           name='Mercury'
           onClick={handleZoomCamera}
         />
 
         {/* Venus */}
         <PlanetWithOrbit
-          modelUrl='/planets/venus/scene.gltf'
+          modelUrl='/planets/venus/scene.glb'
           scale={[0.1, 0.1, 0.1]}
           name='Venus'
           onClick={handleZoomCamera}
@@ -65,9 +56,8 @@ export function Space(props: SpaceProps) {
 
         {/* Earth */}
         <PlanetWithOrbit
-          modelUrl='/planets/earth/scene.gltf'
+          modelUrl='/planets/earth/scene.glb'
           scale={[0.1, 0.1, 0.1]}
-          modelPosition={[0.1, 0.1, 0.1]}
           name='Earth'
           onClick={handleZoomCamera}
         />
@@ -106,9 +96,9 @@ export function Space(props: SpaceProps) {
 
         {/* Neptune */}
         <PlanetWithOrbit
-          modelUrl='/planets/neptune/scene.gltf'
+          modelUrl='/planets/neptune/scene.glb'
           name='Neptune'
-          scale={[0.1, 0.1, 0.1]}
+          scale={[0.001, 0.001, 0.001]}
           onClick={handleZoomCamera}
         />
       </group>

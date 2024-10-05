@@ -1,12 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useRef, useState } from 'react';
-import { BaseButton } from '../button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Transition } from '@headlessui/react';
-
-// interface HeaderProps {
-
-// }
+import { useState } from 'react';
+import { BaseButton } from '../button';
 
 export function Header() {
   const [infoOpen, setInfoOpen] = useState(false);
@@ -21,10 +17,10 @@ export function Header() {
         <FontAwesomeIcon icon={faCircleInfo} className='text-white/60 h-8' />
       </BaseButton>
       {infoOpen && (
-        <button onClick={() => setInfoOpen(!infoOpen)} className='fixed h-[100vh] w-[100vw] inset-0 '></button>
+        <BaseButton isBack onClick={() => setInfoOpen(!infoOpen)} className='fixed h-[100vh] w-[100vw] inset-0 ' />
       )}
       <Transition show={infoOpen}>
-        <div className='absolute right-0 top-16 flex flex-col z-50  bg-[#252525] border text-white border-white/50 rounded-lg p-4 w-[20rem] gap-4 items-center transition duration-300 ease-in data-[closed]:opacity-0'>
+        <div className='absolute right-0 top-16 flex flex-col z-50 bg-[#252525] border text-white border-white/50 rounded-lg p-4 w-[20rem] gap-4 items-center transition duration-300 ease-in data-[closed]:opacity-0'>
           <h1 className='text-3xl font-semibold'>About</h1>
           <hr className='border-white w-full' />
           <div className='flex flex-col gap-2'>

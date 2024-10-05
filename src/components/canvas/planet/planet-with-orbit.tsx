@@ -59,6 +59,7 @@ export function PlanetWithOrbit({
         sMinor={sMinor}
         position={orbitPosition}
         rotation={orbitRotation}
+        //TODO: DELETE!
         onClick={() => console.log(name)}
       />
     </group>

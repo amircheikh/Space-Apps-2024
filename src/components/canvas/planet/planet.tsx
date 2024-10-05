@@ -1,7 +1,8 @@
 import { Text } from '@react-three/drei';
-import { ObjectMap, Vector3 } from '@react-three/fiber';
+import { ObjectMap, useFrame, Vector3 } from '@react-three/fiber';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
+import { MathUtils } from 'three';
 import { GLTF } from 'three-stdlib';
 import useSound from 'use-sound';
 import click from '../../../sounds/click-1.mp3';
@@ -29,31 +30,31 @@ export function Planet(props: PlanetProps) {
   const [hovered, setHovered] = useState(false);
 
   const [playHover] = useSound(hover);
-  const [playClick] = useSound(click);
-  const [playFly] = useSound(fly);
+  const [playClick] = useSound(click, { interrupt: true });
+  const [playFly] = useSound(fly, { interrupt: true });
 
-  //   useFrame((state, delta) => {
-  //     const hoverEffectSpeed = 15 * delta;
-  //     const hoverScale = 1.1;
+  useFrame((state, delta) => {
+    const hoverEffectSpeed = 15 * delta;
+    const hoverScale = 1.1;
 
-  //     const time = state.clock.getElapsedTime();
+    //Use for autorotation
+    // const time = state.clock.getElapsedTime();
+    // shapeRef.current.rotation.x = Math.sin(time) / 3;
+    // shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
+    // shapeRef.current.rotation.z = Math.sin(time) / 10;
 
-  //     shapeRef.current.rotation.x = Math.sin(time) / 3;
-  //     shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
-  //     shapeRef.current.rotation.z = Math.sin(time) / 10;
+    groupRef.current.scale.x = hovered
+      ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
+      : MathUtils.lerp(groupRef.current.scale.x, 1, hoverEffectSpeed);
 
-  //     groupRef.current.scale.x = hovered
-  //       ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
-  //       : MathUtils.lerp(groupRef.current.scale.x, 1, hoverEffectSpeed);
+    groupRef.current.scale.y = hovered
+      ? MathUtils.lerp(groupRef.current.scale.y, hoverScale, hoverEffectSpeed)
+      : MathUtils.lerp(groupRef.current.scale.y, 1, hoverEffectSpeed);
 
-  //     groupRef.current.scale.y = hovered
-  //       ? MathUtils.lerp(groupRef.current.scale.y, hoverScale, hoverEffectSpeed)
-  //       : MathUtils.lerp(groupRef.current.scale.y, 1, hoverEffectSpeed);
-
-  //     groupRef.current.scale.z = hovered
-  //       ? MathUtils.lerp(groupRef.current.scale.z, hoverScale, hoverEffectSpeed)
-  //       : MathUtils.lerp(groupRef.current.scale.z, 1, hoverEffectSpeed);
-  //   });
+    groupRef.current.scale.z = hovered
+      ? MathUtils.lerp(groupRef.current.scale.z, hoverScale, hoverEffectSpeed)
+      : MathUtils.lerp(groupRef.current.scale.z, 1, hoverEffectSpeed);
+  });
 
   const handlePointerEnter = () => {
     playHover({ playbackRate: 0.7 + Math.random() * (1.1 - 0.7) });
@@ -71,23 +72,16 @@ export function Planet(props: PlanetProps) {
   };
 
   return (
-    <group ref={groupRef} position={position}>
-      {/* This mesh is used as a hitbox for pointer detection */}
-      <mesh
-        ref={hitboxRef}
-        onClick={handleClick}
-        onPointerEnter={handlePointerEnter}
-        onPointerLeave={handlePointerLeave}
-        position={[0, 0, 0]}
-        rotation={[0, 0, 0]}
-      >
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial opacity={0} transparent depthWrite={false} />
-      </mesh>
-
+    <group
+      ref={groupRef}
+      position={position}
+      onClick={handleClick}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+    >
       <primitive object={model.scene} scale={scale} position={modelPosition} />
 
-      <Text ref={textRef} scale={0.1} position={[0, -0.6, 0]}>
+      <Text ref={textRef} scale={0.1} position={[0, -0.1, 0]}>
         {name}
       </Text>
     </group>
