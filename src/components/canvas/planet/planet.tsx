@@ -1,6 +1,6 @@
 import { Billboard, Text } from '@react-three/drei';
 import { ObjectMap, useFrame } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { Color, Vector3 } from 'three';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { MathUtils } from 'three';
@@ -15,11 +15,13 @@ interface PlanetProps {
   name?: string;
   modelPosition?: Vector3;
   scale?: number;
+  color?: string;
+  hoverColor?: string;
   onClick?: (position: Vector3, scale?: number) => void;
 }
 
 export function Planet(props: PlanetProps) {
-  const { name, model, position, modelPosition, scale, onClick } = props;
+  const { name, model, position, modelPosition, scale, color, hoverColor, onClick } = props;
   const starSize = 0.015;
 
   const groupRef = useRef<THREE.Group>();
@@ -28,11 +30,11 @@ export function Planet(props: PlanetProps) {
   const textRef = useRef<THREE.Group>();
   const circleRef = useRef<THREE.Mesh>();
   const pooRef = useRef<THREE.Mesh>();
+  const circleMaterialRef = useRef<THREE.MeshBasicMaterial>();
 
   const [hovered, setHovered] = useState(false);
 
   const [playHover] = useSound(hover);
-
 
   const origin = new THREE.Vector3(0, 0, 0);
   const planetFromOrigin = position.distanceTo(origin);
@@ -74,6 +76,7 @@ export function Planet(props: PlanetProps) {
   const handlePointerEnter = () => {
     playHover({ playbackRate: 0.7 + Math.random() * (1.1 - 0.7) });
     document.body.style.cursor = 'pointer';
+    circleMaterialRef.current.color = new Color(hoverColor);
     setHovered(true);
   };
 
@@ -116,7 +119,7 @@ export function Planet(props: PlanetProps) {
         <mesh ref={circleRef} position={[0, 0, 0]} scale={0.1}>
           <ringGeometry args={[1, 1.1, 64]} />
 
-          <meshBasicMaterial color='white' side={THREE.DoubleSide} />
+          <meshBasicMaterial ref={circleMaterialRef} color={color} side={THREE.DoubleSide} />
         </mesh>
         <mesh ref={pooRef} position={[0, 0, 0]} scale={0.1}>
           <circleGeometry args={[1.1, 64]} />

@@ -50,6 +50,7 @@ export function Space(props: SpaceProps) {
     }
   };
 
+
   useFrame(() => {
     console.log(cameraRef.current?.rotation);
   });

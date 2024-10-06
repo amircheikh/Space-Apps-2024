@@ -70,6 +70,8 @@ export function PlanetAndOrbit({
         modelPosition={modelPosition}
         scale={scale}
         onClick={onClick}
+        color={planetColors[name]}
+        hoverColor={hoverColor[name]}
       />
       <PlanetOrbit
         sMajor={sMajor}
