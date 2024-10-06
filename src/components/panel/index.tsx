@@ -61,43 +61,52 @@ export function Panel(props: PanelProps) {
           boxShadow: `0 0 5px ${planetColor}`,
         }}
       >
-        <BaseButton 
-          onClick={handleClose} 
-          isBack={true} 
-          className="absolute top-4 right-4 rounded-full p-2 transition-colors duration-200 w-10 h-10 flex items-center justify-center"
-          style={{ backgroundColor: 'transparent' }}
-        >
-          <FontAwesomeIcon 
-            icon={faTimes} 
-            color={planetColor}  // Set the 'X' icon color to planetColor
-            size={'lg'} 
-          />
-        </BaseButton>
-        <div className='flex flex-col space-y-4'>
+        <div className='relative flex items-center justify-between w-full'>
           <div className='text-3xl font-semibold text-gray-100 text-left brightness-60' style={{ color: planetColor }}>
             {celestialBody?.name}
           </div>
-          
-          <div
-            className='h-px w-full brightness-50'
-            style={{
-              backgroundColor: planetColor, 
-              boxShadow: `0 0 10px ${planetColor}, 0 0 20px ${planetColor}`,
-            }}
-          />
+          <BaseButton 
+            onClick={handleClose} 
+            isBack={true} 
+            className="rounded-full p-2 transition-colors duration-200 w-10 h-10 flex items-center justify-center"
+            style={{ backgroundColor: 'transparent' }}
+          >
+            <FontAwesomeIcon 
+              icon={faTimes} 
+              color={planetColor}  // Set the 'X' icon color to planetColor
+              size={'lg'} 
+            />
+          </BaseButton>
         </div>
+
+        <div
+          className='h-px w-full brightness-50'
+          style={{
+            backgroundColor: planetColor, 
+            boxShadow: `0 0 10px ${planetColor}, 0 0 20px ${planetColor}`,
+          }}
+        />
+
         <div className='flex-grow overflow-y-auto pr-4 text-gray-300 space-y-8'>
           {celestialBody ? (
             <div className="space-y-3">
-              <p><strong>Type:</strong> {celestialBody.type}</p>
-              <p><strong>Description:</strong> {celestialBody.description}</p>
-              <p><strong>Temperature:</strong> {celestialBody.temperature}</p>
-              <p><strong>Diameter:</strong> {celestialBody.diameter}</p>
-              <p><strong>Mass:</strong> {celestialBody.mass}</p>
-              {celestialBody.orbitalPeriod && <p><strong>Orbital Period:</strong> {celestialBody.orbitalPeriod}</p>}
-              {celestialBody.gravity && <p><strong>Gravity:</strong> {celestialBody.gravity}</p>}
-              {celestialBody.expeditions && <p><strong>Expeditions:</strong> {celestialBody.expeditions}</p>}
-              {celestialBody.age && <p><strong>Age:</strong> {celestialBody.age}</p>}
+              <p className="text-left"><strong style={{ color: planetColor }}>Type:</strong> <span className="text-gray-100">{celestialBody.type}</span></p>
+              <p className="text-left"><strong style={{ color: planetColor }}>Description:</strong> <span className="text-gray-100">{celestialBody.description}</span></p>
+              <p className="text-left"><strong style={{ color: planetColor }}>Temperature:</strong> <span className="text-gray-100">{celestialBody.temperature}</span></p>
+              <p className="text-left"><strong style={{ color: planetColor }}>Diameter:</strong> <span className="text-gray-100">{celestialBody.diameter}</span></p>
+              <p className="text-left"><strong style={{ color: planetColor }}>Mass:</strong> <span className="text-gray-100">{celestialBody.mass}</span></p>
+              {celestialBody.orbitalPeriod && (
+                <p className="text-left"><strong style={{ color: planetColor }}>Orbital Period:</strong> <span className="text-gray-100">{celestialBody.orbitalPeriod}</span></p>
+              )}
+              {celestialBody.gravity && (
+                <p className="text-left"><strong style={{ color: planetColor }}>Gravity:</strong> <span className="text-gray-100">{celestialBody.gravity}</span></p>
+              )}
+              {celestialBody.expeditions && (
+                <p className="text-left"><strong style={{ color: planetColor }}>Expeditions:</strong> <span className="text-gray-100">{celestialBody.expeditions}</span></p>
+              )}
+              {celestialBody.age && (
+                <p className="text-left"><strong style={{ color: planetColor }}>Age:</strong> <span className="text-gray-100">{celestialBody.age}</span></p>
+              )}
             </div>
           ) : (
             <p>No information available for the selected planet.</p>

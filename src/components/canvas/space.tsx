@@ -13,7 +13,7 @@ import { useFrame } from '@react-three/fiber';
 import useSound from 'use-sound';
 import click from '../../sounds/click-1.mp3';
 import fly from '../../sounds/fly-1.mp3';
-import { MAX_DOLLY_DISTANCE, PLANET_SCALES } from './planet/constants';
+import { MAX_DOLLY_DISTANCE, MIN_DOLLY_DISTANCE, PLANET_SCALES } from './planet/constants';
 import { PlanetAndOrbit } from './planet/planet-with-orbit/planet-and-orbit';
 
 import { onLoadable } from '@/helpers/hooks/api/query'; // Import onLoadable
@@ -72,7 +72,8 @@ export function Space(props: SpaceProps) {
         <StarBackground />
 
         <group>
-          <CameraControls maxDistance={MAX_DOLLY_DISTANCE} ref={cameraControlRef} />
+          <CameraControls minDistance={MIN_DOLLY_DISTANCE} maxDistance={MAX_DOLLY_DISTANCE} ref={cameraControlRef} />
+
 
           {/* Sun */}
           <Planet
