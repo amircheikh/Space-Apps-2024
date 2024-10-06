@@ -6,7 +6,7 @@ import { View } from '@/components/canvas/View';
 import { Panel } from '@/components/panel';
 import { CameraMovementContextProvider } from '@/components/provider/camera';
 import { StartScreen } from '@/components/start';
-import { Html, Hud } from '@react-three/drei';
+import { Hud } from '@react-three/drei';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
 import useSound from 'use-sound';
@@ -20,7 +20,7 @@ export default function Page() {
   const queryClient = new QueryClient();
 
   const handleShowPanel = (planetName: string) => {
-    switch(planetName) {
+    switch (planetName) {
       case 'Sun':
       case 'Mercury':
       case 'Venus':
@@ -43,31 +43,21 @@ export default function Page() {
 
   return (
     <div className='flex size-full overflow-hidden bg-black'>
-      <div className='absolute top-0 z-10 w-full'>
-        <Header />
-      </div>
+      {!showStartScreen && (
+        <div className='absolute top-0 z-10 w-full'>
+          <Header />
+        </div>
+      )}
+
       <View className='size-full overflow-hidden'>
         <QueryClientProvider client={queryClient}>
           <CameraMovementContextProvider>
-            <Suspense
-              fallback={
-                <Html fullscreen>
-                  <div className='flex size-full flex-col items-center justify-center bg-black text-textprimary'>
-                    loading...
-                  </div>
-                </Html>
-              }
-            >
+            <Suspense fallback={<StartScreen />}>
               <Space showStartScreen={showStartScreen} onPlanetClick={handleShowPanel} />
             </Suspense>
             <Hud>
               {showStartScreen && <StartScreen onClose={() => setShowStartScreen(false)} />}
-              {selectedPlanet && (
-                <Panel
-                  selectedPlanet={selectedPlanet}
-                  onClose={handleClosePanel}
-                />
-              )}
+              {selectedPlanet && <Panel selectedPlanet={selectedPlanet} onClose={handleClosePanel} />}
             </Hud>
           </CameraMovementContextProvider>
         </QueryClientProvider>
