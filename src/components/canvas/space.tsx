@@ -55,7 +55,7 @@ export function Space(props: SpaceProps) {
       <ambientLight intensity={0.5} />
       <StarBackground />
 
-      <group visible={!showStartScreen}>
+      <group>
         <CameraControls ref={cameraControlRef} />
 
         {/* Sun */}

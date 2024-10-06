@@ -37,11 +37,8 @@ export function Planet(props: PlanetProps) {
     const hoverEffectSpeed = 15 * delta;
     const hoverScale = 1.1;
 
-    //Use for autorotation
-    // const time = state.clock.getElapsedTime();
-    // shapeRef.current.rotation.x = Math.sin(time) / 3;
-    // shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
-    // shapeRef.current.rotation.z = Math.sin(time) / 10;
+    const time = state.clock.getElapsedTime();
+    shapeRef.current.rotation.y = time / 10;
 
     groupRef.current.scale.x = hovered
       ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
@@ -83,7 +80,7 @@ export function Planet(props: PlanetProps) {
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
-      <primitive object={model.scene} scale={scale} position={modelPosition} />
+      <primitive ref={shapeRef} object={model.scene} scale={scale} position={modelPosition} />
       <Billboard>
         <Text ref={textRef} scale={0.1} position={[0, 0.1, 0]} anchorX='center' anchorY='middle' direction='rtl'>
           {name}
