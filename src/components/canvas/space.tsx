@@ -10,20 +10,44 @@ import { useScreenSize } from '@/helpers/hooks/screen-size';
 import { Planet } from './planet/planet';
 import { PlanetWithOrbit } from './planet/planet-with-orbit';
 
-interface SpaceProps {
+export interface SpaceProps {
   showStartScreen: boolean;
+  onPlanetClick: (planetName: string) => void;
 }
+
+const planetPositions: { [key: string]: THREE.Vector3 } = {
+  Sun: new THREE.Vector3(0, 0, 0),
+  Mercury: new THREE.Vector3(0, 1, 0),
+  Venus: new THREE.Vector3(0, 2, 0),
+  Earth: new THREE.Vector3(0, 3, 0),
+  Mars: new THREE.Vector3(0, 4, 0),
+  Jupiter: new THREE.Vector3(0, 5, 0),
+  Saturn: new THREE.Vector3(0, 6, 0),
+  Uranus: new THREE.Vector3(0, 7, 0),
+  Neptune: new THREE.Vector3(0, 8, 0),
+};
 
 export function Space(props: SpaceProps) {
   const sun = useGLTF('/planets/sun/scene.gltf');
 
-  const { showStartScreen } = props;
+
+  const { showStartScreen, onPlanetClick } = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
   const { cameraControlRef, cameraDefaultRotation, handleZoomCamera } = useCameraMovement();
 
   const screenSize = useScreenSize();
   const isSmallScreen = screenSize.width < 1280;
+
+  const handlePlanetClick = (planetName: string) => {
+    const position = planetPositions[planetName];
+    if (position) {
+      handleZoomCamera(position);
+      onPlanetClick(planetName);
+    } else {
+      console.warn(`Unknown planet: ${planetName}`);
+    }
+  };
 
   return (
     <group>
@@ -36,14 +60,14 @@ export function Space(props: SpaceProps) {
         <CameraControls ref={cameraControlRef} />
 
         {/* Sun */}
-        <Planet model={sun} position={[0, 0, 0]} scale={[0.01, 0.01, 0.01]} name='Sun' onClick={handleZoomCamera} />
+        <Planet model={sun} position={[0, 0, 0]} scale={[0.01, 0.01, 0.01]} name='Sun' onClick={() => handlePlanetClick('Sun')} />
 
         {/* Mercury */}
         <PlanetWithOrbit
           modelUrl='/planets/mercury/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Mercury'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Mercury')}
         />
 
         {/* Venus */}
@@ -51,7 +75,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/venus/scene.glb'
           scale={[0.1, 0.1, 0.1]}
           name='Venus'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Venus')}
         />
 
         {/* Earth */}
@@ -59,7 +83,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/earth/scene.glb'
           scale={[0.1, 0.1, 0.1]}
           name='Earth'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Earth')}
         />
 
         {/* Mars */}
@@ -67,7 +91,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/mars/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Mars'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Mars')}
         />
 
         {/* Jupiter */}
@@ -75,7 +99,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/jupiter/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Jupiter'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Jupiter')}
         />
 
         {/* Saturn */}
@@ -83,7 +107,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/saturn/scene.gltf'
           scale={[10, 10, 10]}
           name='Saturn'
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Saturn')}
         />
 
         {/* Uranus */}
@@ -91,7 +115,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/uranus/scene.gltf'
           name='Uranus'
           scale={[0.001, 0.001, 0.001]}
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Uranus')}
         />
 
         {/* Neptune */}
@@ -99,7 +123,7 @@ export function Space(props: SpaceProps) {
           modelUrl='/planets/neptune/scene.glb'
           name='Neptune'
           scale={[0.001, 0.001, 0.001]}
-          onClick={handleZoomCamera}
+          onClick={() => handlePlanetClick('Neptune')}
         />
       </group>
     </group>

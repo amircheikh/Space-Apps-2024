@@ -8,13 +8,12 @@ import { BaseButton } from '../button';
 import { useCameraMovement } from '../provider/camera';
 
 interface PanelProps {
-  title?: string;
   onClose?: VoidFunction;
-  selectedPlanet?: string;
+  selectedPlanet: string;
 }
 
 export function Panel(props: PanelProps) {
-  const { title, onClose, selectedPlanet } = props;
+  const { onClose, selectedPlanet } = props;
   const [opacity, setOpacity] = useState(0);
   const { handleResetCamera } = useCameraMovement();
 
@@ -31,7 +30,7 @@ export function Panel(props: PanelProps) {
     handleEntrance();
   }, []);
 
-  const celestialBody = solarSystemData.solarSystem.find(body => body.name.toLowerCase() === selectedPlanet?.toLowerCase());
+  const celestialBody = solarSystemData.solarSystem.find(body => body.name.toLowerCase() === selectedPlanet.toLowerCase());
 
   return (
     <Html
@@ -48,7 +47,7 @@ export function Panel(props: PanelProps) {
           <FontAwesomeIcon icon={faTimes} color={colors.textsecondary} size={'lg'} />
         </BaseButton>
         <div className='flex flex-col space-y-4'>
-          <div className='text-3xl font-semibold text-gray-100 text-left'>{celestialBody?.name || title}</div>
+          <div className='text-3xl font-semibold text-gray-100 text-left'>{celestialBody?.name}</div>
           <div className='h-px w-full bg-gray-600' />
         </div>
         <div className='flex-grow overflow-y-auto pr-4 text-gray-300 space-y-8'>
@@ -63,6 +62,7 @@ export function Panel(props: PanelProps) {
               {celestialBody.gravity && <p><strong>Gravity:</strong> {celestialBody.gravity}</p>}
               {celestialBody.expeditions && <p><strong>Expeditions:</strong> {celestialBody.expeditions}</p>}
               {celestialBody.age && <p><strong>Age:</strong> {celestialBody.age}</p>}
+              
             </div>
           ) : (
             <p>No information available for the selected planet.</p>
