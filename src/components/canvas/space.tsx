@@ -28,7 +28,7 @@ const planetPositions: { [key: string]: THREE.Vector3 } = {
 };
 
 export function Space(props: SpaceProps) {
-  const sun = useGLTF('/planets/sun/scene.gltf');
+  const sun = useGLTF('/planets/sun/scene.glb');
 
   const { showStartScreen, onPlanetClick } = props;
 
@@ -58,75 +58,67 @@ export function Space(props: SpaceProps) {
       <group visible={!showStartScreen}>
         <CameraControls ref={cameraControlRef} />
 
-        {/* Sun */}
         <Planet
           model={sun}
           position={[0, 0, 0]}
-          scale={[0.01, 0.01, 0.01]}
+          scale={1} // Sun's base scale
           name='Sun'
           onClick={() => handlePlanetClick('Sun')}
         />
 
         <PlanetWithOrbit
-          modelUrl='/planets/mercury/scene.gltf'
-          scale={[0.1, 0.1, 0.1]}
+          modelUrl='/planets/mercury/scene.glb'
+          scale={0.0035} // Mercury scale: 0.0035x
           name='Mercury'
           onClick={() => handlePlanetClick('Mercury')}
         />
 
-        {/* Venus */}
         <PlanetWithOrbit
           modelUrl='/planets/venus/scene.glb'
-          scale={[0.1, 0.1, 0.1]}
+          scale={0.0087} // Venus scale: 0.0087x
           name='Venus'
           onClick={() => handlePlanetClick('Venus')}
         />
 
-        {/* Earth */}
         <PlanetWithOrbit
           modelUrl='/planets/earth/scene.glb'
-          scale={[0.1, 0.1, 0.1]}
+          scale={0.0092} // Earth scale: 0.0092x
           name='Earth'
           onClick={() => handlePlanetClick('Earth')}
         />
 
-        {/* Mars */}
         <PlanetWithOrbit
-          modelUrl='/planets/mars/scene.gltf'
-          scale={[0.1, 0.1, 0.1]}
+          modelUrl='/planets/mars/scene.glb'
+          scale={0.0049} // Mars scale: 0.0049x
           name='Mars'
           onClick={() => handlePlanetClick('Mars')}
         />
 
-        {/* Jupiter */}
         <PlanetWithOrbit
-          modelUrl='/planets/jupiter/scene.gltf'
-          scale={[0.1, 0.1, 0.1]}
+          modelUrl='/planets/jupiter/scene.glb'
+          scale={0.1005} // Jupiter scale: 0.1005x
           name='Jupiter'
           onClick={() => handlePlanetClick('Jupiter')}
         />
 
-        {/* Saturn */}
         <PlanetWithOrbit
-          modelUrl='/planets/saturn/scene.gltf'
-          scale={[0.1, 0.1, 0.1]}
+          modelUrl='/planets/saturn/scene.glb'
+          scale={0.0837} // Saturn scale: 0.0837x
           name='Saturn'
           onClick={() => handlePlanetClick('Saturn')}
         />
 
-        {/* Uranus */}
         <PlanetWithOrbit
-          modelUrl='/planets/uranus/scene.gltf'
+          modelUrl='/planets/uranus/scene.glb'
+          scale={0.0365} // Uranus scale: 0.0365x
           name='Uranus'
-          scale={[0.001, 0.001, 0.001]}
           onClick={() => handlePlanetClick('Uranus')}
         />
 
-        {/* Neptune */}
         <PlanetWithOrbit
           modelUrl='/planets/neptune/scene.glb'
+          scale={0.0354} // Neptune scale: 0.0354x
           name='Neptune'
-          scale={[0.001, 0.001, 0.001]}
           onClick={() => handlePlanetClick('Neptune')}
         />
       </group>

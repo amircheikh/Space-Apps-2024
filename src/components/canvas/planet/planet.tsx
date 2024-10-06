@@ -14,9 +14,12 @@ interface PlanetProps {
   position?: Vector3;
   name?: string;
   modelPosition?: Vector3;
-  scale?: Vector3;
+  scale?: number;
   onClick?: (position: Vector3) => void;
 }
+
+const MAX_VISIBLE_DISTANCE = 2000; // CHANGE THIS LATER
+const MIN_VISIBLE_DISTANCE = 100; // CHANGE THIS LATER
 
 export function Planet(props: PlanetProps) {
   const { name, model, position, modelPosition, scale, onClick } = props;
@@ -26,6 +29,7 @@ export function Planet(props: PlanetProps) {
   const shapeRef = useRef<THREE.Points>();
   const hitboxRef = useRef<THREE.Mesh>();
   const textRef = useRef<THREE.Group>();
+  const circleRef = useRef<THREE.Mesh>();
 
   const [hovered, setHovered] = useState(false);
 
@@ -57,6 +61,15 @@ export function Planet(props: PlanetProps) {
 
     const distance = state.camera.position.distanceTo(textRef.current.position);
     textRef.current.scale.setScalar(distance * 0.03);
+    circleRef.current.scale.setScalar(distance * 0.01);
+
+    const adjustedMaxDistance = MAX_VISIBLE_DISTANCE * scale;
+    const adjustedMinDistance = MIN_VISIBLE_DISTANCE * scale;
+    const isRingVisible = distance <= adjustedMaxDistance && distance >= adjustedMinDistance;
+    const isTextVisible = distance <= adjustedMaxDistance && distance >= adjustedMinDistance;
+
+    textRef.current.visible = isTextVisible;
+    circleRef.current.visible = isRingVisible;
     // textRef.current.size =
   });
 
@@ -83,11 +96,24 @@ export function Planet(props: PlanetProps) {
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
-      <primitive object={model.scene} scale={scale} position={modelPosition} />
+      <primitive object={model.scene} scale={[0.01 * scale, 0.01 * scale, 0.01 * scale]} position={modelPosition} />
       <Billboard>
-        <Text ref={textRef} scale={0.1} position={[0, 0.1, 0]} anchorX='center' anchorY='middle' direction='rtl'>
-          {name}
+        <Text
+          ref={textRef}
+          scale={0.1}
+          position={[5 * scale, 6 * scale, 0]}
+          anchorX='left'
+          anchorY='top'
+          font='/Montserrat-SemiBold.ttf'
+          fontWeight='medium'
+        >
+          {name.toUpperCase()}
         </Text>
+
+        <mesh ref={circleRef} position={[0, 0, 0]} scale={0.1}>
+          <ringGeometry args={[1, 1.1, 64]} />
+          <meshBasicMaterial color='white' side={THREE.DoubleSide} />
+        </mesh>
       </Billboard>
     </group>
   );

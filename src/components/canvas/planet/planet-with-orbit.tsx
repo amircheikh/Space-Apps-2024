@@ -12,7 +12,7 @@ interface PlanetWithOrbitProps {
   orbitPosition?: THREE.Vector3;
   orbitRotation?: THREE.Euler;
   modelPosition?: Vector3;
-  scale?: Vector3;
+  scale?: number;
   onClick?: (position: Vector3) => void;
 }
 

@@ -15,5 +15,13 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: "Montserrat", sans-serif;
   }
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
 }
