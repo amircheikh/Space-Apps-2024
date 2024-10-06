@@ -6,7 +6,7 @@ import { PlanetOrbit } from '../orbit';
 import { Planet } from '../planet';
 import { planetOrbitalData } from './types';
 import { calculatePlanetPosition } from './utils';
-import { ORBIT_MULTIPLIER } from '../constants';
+import { hoverColor, ORBIT_MULTIPLIER, planetColors } from '../constants';
 import { Vector3 } from 'three';
 
 interface PlanetAndOrbitProps {
@@ -67,7 +67,15 @@ export function PlanetAndOrbit({
         scale={scale}
         onClick={onClick}
       />
-      <PlanetOrbit sMajor={sMajor} sMinor={sMinor} position={orbitPosition} rotation={orbitRotation} />
+      <PlanetOrbit
+        sMajor={sMajor}
+        sMinor={sMinor}
+        position={orbitPosition}
+        rotation={orbitRotation}
+        color={planetColors[name]}
+        hoverColor={hoverColor[name]}
+        onClick={() => onClick(new Vector3(planetPos[0], planetPos[1], planetPos[2]), scale)}
+      />
     </group>
   );
 }

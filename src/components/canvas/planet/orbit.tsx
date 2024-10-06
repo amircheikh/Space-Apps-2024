@@ -2,6 +2,8 @@ import { Line } from '@react-three/drei';
 import { Euler, Vector3 } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useState } from 'react';
+import useSound from 'use-sound';
+import hover from '../../../sounds/hover-1.mp3'
 
 interface PlanetOrbitProps {
   sMajor: number;
@@ -11,7 +13,7 @@ interface PlanetOrbitProps {
   color?: string;
   hoverColor?: string;
   lineWidth?: number;
-  onClick?: () => void;
+  onClick?: VoidFunction
 }
 
 export function PlanetOrbit(props: PlanetOrbitProps) {
@@ -44,6 +46,9 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
   const [currentColor, setCurrentColor] = useState(color);
   const [currentLineWidth, setCurrentLineWidth] = useState(lineWidth);
 
+  const [playHover] = useSound(hover, {volume: 0.2});
+
+
   return (
     <group>
       <Line
@@ -63,6 +68,7 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
         visible={false} 
         lineWidth={lineWidth + 25} 
         onPointerOver={() => {
+          playHover({ playbackRate: 0.7 + Math.random() * (1.1 - 0.7) });
           setCurrentColor(hoverColor);
           setCurrentLineWidth(lineWidth + 2); 
           document.body.style.cursor = 'pointer';

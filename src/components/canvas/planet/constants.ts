@@ -14,3 +14,26 @@ export const PLANET_SCALES = {
    URANUS: 0.0365,
    NEPTUNE: 0.0354,
  };
+
+ export const planetColors = {
+  Sun: '#f7f4df',
+  Mercury: '#9768ac', 
+  Venus: '#b07919',  
+  Earth: '#09c',  
+  Mars: '#9a4e19',   
+  Jupiter: '#da8b72', 
+  Saturn: '#d5c187', 
+  Uranus: '#68ccda', 
+  Neptune: '#708ce3', 
+};
+
+export const hoverColor = {
+  Mercury: '#714e81', 
+  Venus: '#845b13',  
+  Earth: '#007399',  
+  Mars: '#733a13',   
+  Jupiter: '#a36855', 
+  Saturn: '#786d4c', 
+  Uranus: '#4e99a3', 
+  Neptune: '#5469AF', 
+};
