@@ -54,11 +54,12 @@ export default function Page() {
           <CameraMovementContextProvider>
             <Suspense fallback={<StartScreen />}>
               <Space showStartScreen={showStartScreen} onPlanetClick={handleShowPanel} />
-            </Suspense>
+            
             <Hud>
               {showStartScreen && <StartScreen onClose={() => setShowStartScreen(false)} />}
               {selectedPlanet && <Panel selectedPlanet={selectedPlanet} onClose={handleClosePanel} />}
             </Hud>
+            </Suspense>
           </CameraMovementContextProvider>
         </QueryClientProvider>
       </View>
