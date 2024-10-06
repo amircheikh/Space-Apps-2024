@@ -1,21 +1,20 @@
-import { CameraControls, PerspectiveCamera } from '@react-three/drei';
+import { useHorizonsRouteQuery } from '@/helpers/hooks/nasa/query';
+import { useScreenSize } from '@/helpers/hooks/screen-size';
+import { CameraControls, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import { useRef } from 'react';
-
-import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { useCameraMovement } from '../provider/camera';
+import { Planet } from './planet/planet';
 import { StarBackground } from './star-background';
 
-import { useScreenSize } from '@/helpers/hooks/screen-size';
-import { Planet } from './planet/planet';
-import { PlanetAndOrbitWithQuery } from './planet/planet-with-orbit/planet-and-orbit-query';
 import { Vector3 } from 'three';
+import { PlanetAndOrbitWithQuery } from './planet/planet-with-orbit/planet-and-orbit-query';
 
-import { MAX_DOLLY_DISTANCE, PLANET_SCALES } from './planet/constants';
 import { useFrame } from '@react-three/fiber';
-import click from '../../sounds/click-1.mp3'
-import fly from '../../sounds/fly-1.mp3'
 import useSound from 'use-sound';
+import click from '../../sounds/click-1.mp3';
+import fly from '../../sounds/fly-1.mp3';
+import { MAX_DOLLY_DISTANCE, PLANET_SCALES } from './planet/constants';
 
 export interface SpaceProps {
   showStartScreen: boolean;
@@ -30,6 +29,8 @@ export function Space(props: SpaceProps) {
   const cameraRef = useRef<THREE.PerspectiveCamera>();
   const { cameraControlRef, cameraDefaultRotation, handleZoomCamera } = useCameraMovement();
 
+  const horizonDataLoadable = useHorizonsRouteQuery({ enabled: true });
+
   const screenSize = useScreenSize();
   const isSmallScreen = screenSize.width < 1280;
 
@@ -37,10 +38,9 @@ export function Space(props: SpaceProps) {
   const [playFly] = useSound(fly, { interrupt: true });
 
   const handlePlanetClick = (planetName: string, position: Vector3, scale?: number) => {
-    
     if (position) {
-      playClick()
-      playFly()
+      playClick();
+      playFly();
       handleZoomCamera(position, scale);
       onPlanetClick(planetName);
     } else {

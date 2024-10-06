@@ -1,7 +1,7 @@
 import { onLoadable } from '@/helpers/hooks/api/query';
 import { useHorizonsRouteQuery } from '@/helpers/hooks/nasa/query';
-import { Vector3 } from 'three';
 import * as THREE from 'three';
+import { Vector3 } from 'three';
 import { PlanetAndOrbit } from './planet-and-orbit';
 import { PlanetEnum, planetOrbitalData } from './types';
 

@@ -1,18 +1,18 @@
-import { HorizonsResponse } from '@/helpers/hooks/api/nasa/types';
+import { PlanetDataEntry } from '@/helpers/hooks/api/nasa/types';
 import { useGLTF } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
+import { Vector3 } from 'three';
+import { hoverColor, ORBIT_MULTIPLIER, planetColors } from '../constants';
 import { PlanetOrbit } from '../orbit';
 import { Planet } from '../planet';
 import { planetOrbitalData } from './types';
 import { calculatePlanetPosition } from './utils';
-import { hoverColor, ORBIT_MULTIPLIER, planetColors } from '../constants';
-import { Vector3 } from 'three';
 
 interface PlanetAndOrbitProps {
   modelUrl: string;
   name: keyof typeof planetOrbitalData;
-  horizonData: HorizonsResponse;
+  horizonData: PlanetDataEntry[];
   orbitPosition?: THREE.Vector3;
   orbitRotation?: THREE.Euler;
   modelPosition?: Vector3;
@@ -43,18 +43,18 @@ export function PlanetAndOrbit({
       setSMinor(planetData.semiMinorAxis * ORBIT_MULTIPLIER);
     }
 
-    // if (horizonData && horizonData.routes?.length) {
-    //   const latestPositionData = horizonData.routes[0];
-    //   const calculatedPosition = calculatePlanetPosition(latestPositionData);
-    //   setPlanetPos(calculatedPosition);
-    // } else {
-    // this is a fallback to a random orbit position when Horizon data is not available
-    console.log('FALLBACK HAS RUN FOR: ', name);
-    const angle = 2 * Math.PI;
-    const x = sMajor * Math.cos(angle);
-    const y = sMinor * Math.sin(angle);
-    setPlanetPos([x, y, 0]);
-    //}
+    if (horizonData && horizonData.length) {
+      const latestPositionData = horizonData[0];
+      const calculatedPosition = calculatePlanetPosition(latestPositionData);
+      setPlanetPos(calculatedPosition);
+    } else {
+      // fallback to a random orbit position when Horizon data is not available
+      console.log('FALLBACK HAS RUN FOR: ', name);
+      const angle = Math.random() * 2 * Math.PI;
+      const x = sMajor * Math.cos(angle);
+      const y = sMinor * Math.sin(angle);
+      setPlanetPos([x, y, 0]);
+    }
   }, [name, horizonData, sMajor, sMinor]);
 
   return (
