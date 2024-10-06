@@ -1,11 +1,14 @@
 export interface PlanetDataEntry {
-  time: string;
-  ra: string;
-  dec: string;
-  apmag: number;
-  delta: number;
-  s_o_t: string;
+  time: string; 
+  datetime: string; 
+  x: number; 
+  y: number;
+  z: number; 
+  vx?: number; 
+  vy?: number; 
+  vz?: number; 
 }
+
 
 export interface HorizonsResponse {
   data: {

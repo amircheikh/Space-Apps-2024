@@ -7,7 +7,7 @@ import { hoverColor, ORBIT_MULTIPLIER, planetColors } from '../constants';
 import { PlanetOrbit } from '../orbit';
 import { Planet } from '../planet';
 import { planetOrbitalData } from './types';
-import { calculatePlanetPosition } from './utils';
+import { getPlanetPosition } from './utils';
 
 interface PlanetAndOrbitProps {
   modelUrl: string;
@@ -27,13 +27,14 @@ export function PlanetAndOrbit({
   orbitPosition = new THREE.Vector3(0, 0, 0),
   orbitRotation = new THREE.Euler(0, 0, 0),
   modelPosition,
-  scale,
+  scale = 1,
   onClick,
 }: PlanetAndOrbitProps) {
   const planetModel = useGLTF(modelUrl);
   const [sMajor, setSMajor] = useState(1);
   const [sMinor, setSMinor] = useState(1);
   const [planetPos, setPlanetPos] = useState<[number, number, number]>([0, 0, 0]);
+  const [inclination, setInclination] = useState(0);
 
   useEffect(() => {
     const planetData = planetOrbitalData[name];
@@ -41,25 +42,27 @@ export function PlanetAndOrbit({
     if (planetData) {
       setSMajor(planetData.semiMajorAxis * ORBIT_MULTIPLIER);
       setSMinor(planetData.semiMinorAxis * ORBIT_MULTIPLIER);
+      setInclination(planetData.inclination);
     }
 
     if (horizonData && horizonData.length) {
       const latestPositionData = horizonData[0];
-      const calculatedPosition = calculatePlanetPosition(latestPositionData);
-      setPlanetPos([
-        calculatedPosition[0] * ORBIT_MULTIPLIER,
-        calculatedPosition[1] * ORBIT_MULTIPLIER,
-        calculatedPosition[2] * ORBIT_MULTIPLIER,
-      ]);
+      const latestPosition = getPlanetPosition(latestPositionData);
+      const scaledPosition = new THREE.Vector3(
+        latestPosition[0] * ORBIT_MULTIPLIER,
+        latestPosition[1] * ORBIT_MULTIPLIER,
+        latestPosition[2],
+      );
+      setPlanetPos([scaledPosition.x, scaledPosition.y, scaledPosition.z]);
     } else {
       // fallback to a random orbit position when Horizon data is not available
-      console.log('FALLBACK HAS RUN FOR: ', name);
       const angle = Math.random() * 2 * Math.PI;
       const x = sMajor * Math.cos(angle);
       const y = sMinor * Math.sin(angle);
-      setPlanetPos([x * ORBIT_MULTIPLIER, y * ORBIT_MULTIPLIER, 0]);
+      const position = new THREE.Vector3(x, y, 0);
+      setPlanetPos([position.x, position.y, position.z]);
     }
-  }, [name, horizonData, sMajor, sMinor]);
+  }, [name, horizonData, sMajor, sMinor, inclination]);
 
   return (
     <group>
@@ -77,7 +80,7 @@ export function PlanetAndOrbit({
         sMajor={sMajor}
         sMinor={sMinor}
         position={orbitPosition}
-        rotation={orbitRotation}
+        rotation={new THREE.Euler(inclination, 0, 0)}
         color={planetColors[name]}
         hoverColor={hoverColor[name]}
         onClick={() => onClick(new Vector3(planetPos[0], planetPos[1], planetPos[2]), scale)}
