@@ -1,10 +1,9 @@
 import { Line } from '@react-three/drei';
-import { Euler, useFrame, Vector3 } from '@react-three/fiber';
+import { Euler, Vector3 } from '@react-three/fiber';
+import { useState } from 'react';
 import * as THREE from 'three';
-import { useState, useRef } from 'react';
 import useSound from 'use-sound';
 import hover from '../../../sounds/hover-1.mp3';
-import { MAX_VISIBLE_DISTANCE, MIN_VISIBLE_DISTANCE } from './constants';
 
 interface PlanetOrbitProps {
   sMajor: number;
@@ -29,7 +28,6 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
     onClick,
   } = props;
 
-  // Define the elliptical orbit path
   const ellipseCurve = new THREE.EllipseCurve(
     0, // center X (relative to orbit center)
     0, // center Y (relative to orbit center)
@@ -41,7 +39,7 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
     0, // rotation angle
   );
 
-  const points = ellipseCurve.getPoints(50);
+  const points = ellipseCurve.getPoints(100);
   const ellipsePoints = points.map((point) => new THREE.Vector3(point.x, point.y, 0));
 
   const [currentColor, setCurrentColor] = useState(color);
@@ -50,19 +48,10 @@ export function PlanetOrbit(props: PlanetOrbitProps) {
   const [playHover] = useSound(hover, { volume: 0.2 });
 
   return (
-    <group>
-      <Line
-        position={position}
-        rotation={rotation}
-        points={ellipsePoints}
-        color={currentColor}
-        lineWidth={currentLineWidth}
-        onClick={onClick}
-      />
+    <group position={position} rotation={rotation}>
+      <Line points={ellipsePoints} color={currentColor} lineWidth={currentLineWidth} onClick={onClick} />
 
       <Line
-        position={position}
-        rotation={rotation}
         points={ellipsePoints}
         color={currentColor}
         visible={false}
