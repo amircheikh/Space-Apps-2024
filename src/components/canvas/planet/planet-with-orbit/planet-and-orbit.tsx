@@ -46,14 +46,18 @@ export function PlanetAndOrbit({
     if (horizonData && horizonData.length) {
       const latestPositionData = horizonData[0];
       const calculatedPosition = calculatePlanetPosition(latestPositionData);
-      setPlanetPos(calculatedPosition);
+      setPlanetPos([
+        calculatedPosition[0] * ORBIT_MULTIPLIER,
+        calculatedPosition[1] * ORBIT_MULTIPLIER,
+        calculatedPosition[2] * ORBIT_MULTIPLIER,
+      ]);
     } else {
       // fallback to a random orbit position when Horizon data is not available
       console.log('FALLBACK HAS RUN FOR: ', name);
       const angle = Math.random() * 2 * Math.PI;
       const x = sMajor * Math.cos(angle);
       const y = sMinor * Math.sin(angle);
-      setPlanetPos([x, y, 0]);
+      setPlanetPos([x * ORBIT_MULTIPLIER, y * ORBIT_MULTIPLIER, 0]);
     }
   }, [name, horizonData, sMajor, sMinor]);
 
