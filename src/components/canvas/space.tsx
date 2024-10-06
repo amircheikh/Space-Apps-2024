@@ -36,7 +36,7 @@ export function Space(props: SpaceProps) {
         <CameraControls ref={cameraControlRef} />
 
         {/* Sun */}
-        <Planet model={sun} position={[0, 0, 0]} scale={[0.01, 0.01, 0.01]} name='Sun' onClick={handleZoomCamera} />
+        <Planet model={sun} position={[0, 0, 0]} scale={[0.1, 0.1, 0.1]} name='Sun' onClick={handleZoomCamera} />
 
         {/* Mercury */}
         <PlanetWithOrbit
@@ -81,7 +81,7 @@ export function Space(props: SpaceProps) {
         {/* Saturn */}
         <PlanetWithOrbit
           modelUrl='/planets/saturn/scene.gltf'
-          scale={[10, 10, 10]}
+          scale={[0.1, 0.1, 0.1]}
           name='Saturn'
           onClick={handleZoomCamera}
         />
@@ -90,7 +90,7 @@ export function Space(props: SpaceProps) {
         <PlanetWithOrbit
           modelUrl='/planets/uranus/scene.gltf'
           name='Uranus'
-          scale={[0.001, 0.001, 0.001]}
+          scale={[0.1, 0.1, 0.1]}
           onClick={handleZoomCamera}
         />
 
@@ -98,7 +98,7 @@ export function Space(props: SpaceProps) {
         <PlanetWithOrbit
           modelUrl='/planets/neptune/scene.glb'
           name='Neptune'
-          scale={[0.001, 0.001, 0.001]}
+          scale={[0.1, 0.1, 0.1]}
           onClick={handleZoomCamera}
         />
       </group>
