@@ -30,7 +30,6 @@ const planetPositions: { [key: string]: THREE.Vector3 } = {
 export function Space(props: SpaceProps) {
   const sun = useGLTF('/planets/sun/scene.gltf');
 
-
   const { showStartScreen, onPlanetClick } = props;
 
   const cameraRef = useRef<THREE.PerspectiveCamera>();
@@ -60,9 +59,14 @@ export function Space(props: SpaceProps) {
         <CameraControls ref={cameraControlRef} />
 
         {/* Sun */}
-        <Planet model={sun} position={[0, 0, 0]} scale={[0.01, 0.01, 0.01]} name='Sun' onClick={() => handlePlanetClick('Sun')} />
+        <Planet
+          model={sun}
+          position={[0, 0, 0]}
+          scale={[0.01, 0.01, 0.01]}
+          name='Sun'
+          onClick={() => handlePlanetClick('Sun')}
+        />
 
-        {/* Mercury */}
         <PlanetWithOrbit
           modelUrl='/planets/mercury/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
@@ -105,7 +109,7 @@ export function Space(props: SpaceProps) {
         {/* Saturn */}
         <PlanetWithOrbit
           modelUrl='/planets/saturn/scene.gltf'
-          scale={[10, 10, 10]}
+          scale={[0.1, 0.1, 0.1]}
           name='Saturn'
           onClick={() => handlePlanetClick('Saturn')}
         />

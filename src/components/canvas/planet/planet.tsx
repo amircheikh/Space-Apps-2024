@@ -1,4 +1,4 @@
-import { Text } from '@react-three/drei';
+import { Billboard, Text } from '@react-three/drei';
 import { ObjectMap, useFrame, Vector3 } from '@react-three/fiber';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -25,7 +25,7 @@ export function Planet(props: PlanetProps) {
   const groupRef = useRef<THREE.Group>();
   const shapeRef = useRef<THREE.Points>();
   const hitboxRef = useRef<THREE.Mesh>();
-  const textRef = useRef<THREE.PointsMaterial>();
+  const textRef = useRef<THREE.Group>();
 
   const [hovered, setHovered] = useState(false);
 
@@ -54,6 +54,10 @@ export function Planet(props: PlanetProps) {
     groupRef.current.scale.z = hovered
       ? MathUtils.lerp(groupRef.current.scale.z, hoverScale, hoverEffectSpeed)
       : MathUtils.lerp(groupRef.current.scale.z, 1, hoverEffectSpeed);
+
+    const distance = state.camera.position.distanceTo(textRef.current.position);
+    textRef.current.scale.setScalar(distance * 0.03);
+    // textRef.current.size =
   });
 
   const handlePointerEnter = () => {
@@ -80,10 +84,11 @@ export function Planet(props: PlanetProps) {
       onPointerLeave={handlePointerLeave}
     >
       <primitive object={model.scene} scale={scale} position={modelPosition} />
-
-      <Text ref={textRef} scale={0.1} position={[0, -0.1, 0]}>
-        {name}
-      </Text>
+      <Billboard>
+        <Text ref={textRef} scale={0.1} position={[0, 0.1, 0]} anchorX='center' anchorY='middle' direction='rtl'>
+          {name}
+        </Text>
+      </Billboard>
     </group>
   );
 }
