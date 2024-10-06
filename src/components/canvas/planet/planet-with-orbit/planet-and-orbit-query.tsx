@@ -1,6 +1,6 @@
 import { onLoadable } from '@/helpers/hooks/api/query';
 import { useHorizonsRouteQuery } from '@/helpers/hooks/nasa/query';
-import { Vector3 } from '@react-three/fiber';
+import { Vector3 } from 'three';
 import * as THREE from 'three';
 import { PlanetAndOrbit } from './planet-and-orbit';
 import { PlanetEnum, planetOrbitalData } from './types';
@@ -11,8 +11,8 @@ export interface PlanetAndOrbitPropsWithQuery {
   orbitPosition?: THREE.Vector3;
   orbitRotation?: THREE.Euler;
   modelPosition?: Vector3;
-  scale?: Vector3;
-  onClick?: (position: Vector3) => void;
+  scale?: number;
+  onClick?: (position: Vector3, scale?: number) => void;
 }
 
 export function PlanetAndOrbitWithQuery({
