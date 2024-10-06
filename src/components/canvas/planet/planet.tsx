@@ -6,8 +6,6 @@ import * as THREE from 'three';
 import { MathUtils } from 'three';
 import { GLTF } from 'three-stdlib';
 import useSound from 'use-sound';
-import click from '../../../sounds/click-1.mp3';
-import fly from '../../../sounds/fly-1.mp3';
 import hover from '../../../sounds/hover-1.mp3';
 import { MAX_VISIBLE_DISTANCE, MIN_VISIBLE_DISTANCE } from './constants';
 
@@ -34,8 +32,7 @@ export function Planet(props: PlanetProps) {
   const [hovered, setHovered] = useState(false);
 
   const [playHover] = useSound(hover);
-  const [playClick] = useSound(click, { interrupt: true });
-  const [playFly] = useSound(fly, { interrupt: true });
+
 
   const origin = new THREE.Vector3(0, 0, 0);
   const planetFromOrigin = position.distanceTo(origin);
@@ -76,16 +73,16 @@ export function Planet(props: PlanetProps) {
 
   const handlePointerEnter = () => {
     playHover({ playbackRate: 0.7 + Math.random() * (1.1 - 0.7) });
+    document.body.style.cursor = 'pointer';
     setHovered(true);
   };
 
   const handlePointerLeave = () => {
+    document.body.style.cursor = 'auto';
     setHovered(false);
   };
 
   const handleClick = () => {
-    playClick();
-    playFly();
     onClick(groupRef.current.position, scale);
   };
 
