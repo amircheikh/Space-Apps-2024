@@ -10,6 +10,7 @@ import { Hud } from '@react-three/drei';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
 import useSound from 'use-sound';
+
 import ambience from '../src/sounds/ambience.mp3';
 
 export default function Page() {
@@ -43,22 +44,17 @@ export default function Page() {
 
   return (
     <div className='flex size-full overflow-hidden bg-black'>
-      {!showStartScreen && (
-        <div className='absolute top-0 z-10 w-full'>
-          <Header />
-        </div>
-      )}
-
       <View className='size-full overflow-hidden'>
         <QueryClientProvider client={queryClient}>
           <CameraMovementContextProvider>
             <Suspense fallback={<StartScreen />}>
               <Space showStartScreen={showStartScreen} onPlanetClick={handleShowPanel} />
-            
-            <Hud>
-              {showStartScreen && <StartScreen onClose={() => setShowStartScreen(false)} />}
-              {selectedPlanet && <Panel selectedPlanet={selectedPlanet} onClose={handleClosePanel} />}
-            </Hud>
+
+              <Hud>
+                {!showStartScreen && <Header />}
+                {showStartScreen && <StartScreen onClose={() => setShowStartScreen(false)} />}
+                {selectedPlanet && <Panel selectedPlanet={selectedPlanet} onClose={handleClosePanel} />}
+              </Hud>
             </Suspense>
           </CameraMovementContextProvider>
         </QueryClientProvider>
