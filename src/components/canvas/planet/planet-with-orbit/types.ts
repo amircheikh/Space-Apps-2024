@@ -1,3 +1,15 @@
+export enum PlanetEnum {
+  Mercury = '199',
+  Venus = '299',
+  Earth = '399',
+  Mars = '499',
+  Jupiter = '599',
+  Saturn = '699',
+  Uranus = '799',
+  Neptune = '899',
+  Sun = '10',
+}
+
 export const planetOrbitalData = {
   Mercury: {
     semiMajorAxis: 0.39, 

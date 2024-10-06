@@ -111,3 +111,16 @@ export function loadDataFromQuery<
       : makeLoadableError<TData>();
   }
 }
+
+export const onLoadable =
+  <TData extends DefinedType>(loadable: Loadable<TData>) =>
+  <TLoading, TError, TSuccess>(
+    onLoading: () => TLoading,
+    onError: () => TError,
+    onSuccess: (data: TData) => TSuccess,
+  ): TLoading | TError | TSuccess =>
+    loadable.loading
+      ? onLoading()
+      : loadable.error
+      ? onError()
+      : onSuccess(loadable.data);

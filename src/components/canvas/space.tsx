@@ -8,7 +8,7 @@ import { StarBackground } from './star-background';
 
 import { useScreenSize } from '@/helpers/hooks/screen-size';
 import { Planet } from './planet/planet';
-import { PlanetWithOrbit } from './planet/planet-with-orbit';
+import { PlanetAndOrbitWithQuery } from './planet/planet-with-orbit/planet-and-orbit-query';
 
 export interface SpaceProps {
   showStartScreen: boolean;
@@ -67,7 +67,7 @@ export function Space(props: SpaceProps) {
           onClick={() => handlePlanetClick('Sun')}
         />
 
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/mercury/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Mercury'
@@ -75,7 +75,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Venus */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/venus/scene.glb'
           scale={[0.1, 0.1, 0.1]}
           name='Venus'
@@ -83,7 +83,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Earth */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/earth/scene.glb'
           scale={[0.1, 0.1, 0.1]}
           name='Earth'
@@ -91,7 +91,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Mars */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/mars/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Mars'
@@ -99,7 +99,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Jupiter */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/jupiter/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Jupiter'
@@ -107,7 +107,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Saturn */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/saturn/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
           name='Saturn'
@@ -115,7 +115,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Uranus */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/uranus/scene.gltf'
           name='Uranus'
           scale={[0.001, 0.001, 0.001]}
@@ -123,7 +123,7 @@ export function Space(props: SpaceProps) {
         />
 
         {/* Neptune */}
-        <PlanetWithOrbit
+        <PlanetAndOrbitWithQuery
           modelUrl='/planets/neptune/scene.glb'
           name='Neptune'
           scale={[0.001, 0.001, 0.001]}
