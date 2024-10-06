@@ -18,6 +18,7 @@ export function StartScreen(props: StartScreenProps) {
   const [playFly] = useSound(fly1);
 
   const handleClose = () => {
+    if(!onClose) return;
     playFly();
     handleResetCamera();
     onClose();
