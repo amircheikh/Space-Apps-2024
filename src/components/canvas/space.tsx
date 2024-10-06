@@ -50,7 +50,6 @@ export function Space(props: SpaceProps) {
     }
   };
 
-
   useFrame(() => {
     console.log(cameraRef.current?.rotation);
   });
@@ -68,9 +67,8 @@ export function Space(props: SpaceProps) {
           far={10000000}
         />
 
-        <ambientLight intensity={0.5} />
         <StarBackground />
-
+        <ambientLight intensity={0.2} />
         <group>
           <CameraControls maxDistance={MAX_DOLLY_DISTANCE} ref={cameraControlRef} />
 
@@ -82,6 +80,8 @@ export function Space(props: SpaceProps) {
             name='Sun'
             onClick={(pos) => handlePlanetClick('Sun', pos, PLANET_SCALES.SUN)}
           />
+
+          <pointLight position={[0, 0, 0]} intensity={5} distance={0} decay={0} castShadow={true} />
 
           {/* Mercury */}
           <PlanetAndOrbit
