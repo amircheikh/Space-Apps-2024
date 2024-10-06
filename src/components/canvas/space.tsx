@@ -38,7 +38,6 @@ export function Space(props: SpaceProps) {
         {/* Sun */}
         <Planet model={sun} position={[0, 0, 0]} scale={[0.1, 0.1, 0.1]} name='Sun' onClick={handleZoomCamera} />
 
-        {/* Mercury */}
         <PlanetWithOrbit
           modelUrl='/planets/mercury/scene.gltf'
           scale={[0.1, 0.1, 0.1]}
