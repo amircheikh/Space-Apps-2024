@@ -13,8 +13,8 @@ import { Vector3 } from 'three';
 
 import { MAX_DOLLY_DISTANCE, PLANET_SCALES } from './planet/constants';
 import { useFrame } from '@react-three/fiber';
-import click from '../../sounds/click-1.mp3'
-import fly from '../../sounds/fly-1.mp3'
+import click from '../../sounds/click-1.mp3';
+import fly from '../../sounds/fly-1.mp3';
 import useSound from 'use-sound';
 
 export interface SpaceProps {
@@ -37,20 +37,15 @@ export function Space(props: SpaceProps) {
   const [playFly] = useSound(fly, { interrupt: true });
 
   const handlePlanetClick = (planetName: string, position: Vector3, scale?: number) => {
-    
     if (position) {
-      playClick()
-      playFly()
+      playClick();
+      playFly();
       handleZoomCamera(position, scale);
       onPlanetClick(planetName);
     } else {
       console.warn(`Unknown planet: ${planetName}`);
     }
   };
-
-  useFrame(() => {
-    console.log(cameraRef.current.rotation);
-  });
 
   return (
     <group>

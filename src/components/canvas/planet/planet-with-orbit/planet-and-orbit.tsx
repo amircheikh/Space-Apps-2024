@@ -49,7 +49,6 @@ export function PlanetAndOrbit({
     //   setPlanetPos(calculatedPosition);
     // } else {
     // this is a fallback to a random orbit position when Horizon data is not available
-    console.log('FALLBACK HAS RUN FOR: ', name);
     const angle = 2 * Math.PI;
     const x = sMajor * Math.cos(angle);
     const y = sMinor * Math.sin(angle);
@@ -66,6 +65,8 @@ export function PlanetAndOrbit({
         modelPosition={modelPosition}
         scale={scale}
         onClick={onClick}
+        color={planetColors[name]}
+        hoverColor={hoverColor[name]}
       />
       <PlanetOrbit
         sMajor={sMajor}
