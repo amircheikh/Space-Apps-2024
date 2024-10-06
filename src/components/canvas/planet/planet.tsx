@@ -1,5 +1,6 @@
 import { Billboard, Text } from '@react-three/drei';
-import { ObjectMap, useFrame, Vector3 } from '@react-three/fiber';
+import { ObjectMap, useFrame } from '@react-three/fiber';
+import { Vector3 } from 'three';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { MathUtils } from 'three';
@@ -8,6 +9,7 @@ import useSound from 'use-sound';
 import click from '../../../sounds/click-1.mp3';
 import fly from '../../../sounds/fly-1.mp3';
 import hover from '../../../sounds/hover-1.mp3';
+import { MAX_VISIBLE_DISTANCE, MIN_VISIBLE_DISTANCE } from './constants';
 
 interface PlanetProps {
   model?: GLTF & ObjectMap;
@@ -15,11 +17,8 @@ interface PlanetProps {
   name?: string;
   modelPosition?: Vector3;
   scale?: number;
-  onClick?: (position: Vector3) => void;
+  onClick?: (position: Vector3, scale?: number) => void;
 }
-
-const MAX_VISIBLE_DISTANCE = 2000; // CHANGE THIS LATER
-const MIN_VISIBLE_DISTANCE = 100; // CHANGE THIS LATER
 
 export function Planet(props: PlanetProps) {
   const { name, model, position, modelPosition, scale, onClick } = props;
@@ -30,6 +29,7 @@ export function Planet(props: PlanetProps) {
   const hitboxRef = useRef<THREE.Mesh>();
   const textRef = useRef<THREE.Group>();
   const circleRef = useRef<THREE.Mesh>();
+  const pooRef = useRef<THREE.Mesh>();
 
   const [hovered, setHovered] = useState(false);
 
@@ -37,15 +37,15 @@ export function Planet(props: PlanetProps) {
   const [playClick] = useSound(click, { interrupt: true });
   const [playFly] = useSound(fly, { interrupt: true });
 
+  const origin = new THREE.Vector3(0, 0, 0);
+  const planetFromOrigin = position.distanceTo(origin);
+
   useFrame((state, delta) => {
     const hoverEffectSpeed = 15 * delta;
     const hoverScale = 1.1;
 
-    //Use for autorotation
-    // const time = state.clock.getElapsedTime();
-    // shapeRef.current.rotation.x = Math.sin(time) / 3;
-    // shapeRef.current.rotation.y = Math.sin(time * 0.5) / 10;
-    // shapeRef.current.rotation.z = Math.sin(time) / 10;
+    const time = state.clock.getElapsedTime();
+    shapeRef.current.rotation.y = time / 10;
 
     groupRef.current.scale.x = hovered
       ? MathUtils.lerp(groupRef.current.scale.x, hoverScale, hoverEffectSpeed)
@@ -62,8 +62,9 @@ export function Planet(props: PlanetProps) {
     const distance = state.camera.position.distanceTo(textRef.current.position);
     textRef.current.scale.setScalar(distance * 0.03);
     circleRef.current.scale.setScalar(distance * 0.01);
+    pooRef.current.scale.setScalar(distance * 0.01);
 
-    const adjustedMaxDistance = MAX_VISIBLE_DISTANCE * scale;
+    const adjustedMaxDistance = MAX_VISIBLE_DISTANCE * (planetFromOrigin / 50);
     const adjustedMinDistance = MIN_VISIBLE_DISTANCE * scale;
     const isRingVisible = distance <= adjustedMaxDistance && distance >= adjustedMinDistance;
     const isTextVisible = distance <= adjustedMaxDistance && distance >= adjustedMinDistance;
@@ -85,7 +86,7 @@ export function Planet(props: PlanetProps) {
   const handleClick = () => {
     playClick();
     playFly();
-    onClick(groupRef.current.position);
+    onClick(groupRef.current.position, scale);
   };
 
   return (
@@ -96,7 +97,12 @@ export function Planet(props: PlanetProps) {
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
-      <primitive object={model.scene} scale={[0.01 * scale, 0.01 * scale, 0.01 * scale]} position={modelPosition} />
+      <primitive
+        ref={shapeRef}
+        object={model.scene}
+        scale={[0.1 * scale, 0.1 * scale, 0.1 * scale]}
+        position={modelPosition}
+      />
       <Billboard>
         <Text
           ref={textRef}
@@ -112,7 +118,12 @@ export function Planet(props: PlanetProps) {
 
         <mesh ref={circleRef} position={[0, 0, 0]} scale={0.1}>
           <ringGeometry args={[1, 1.1, 64]} />
+
           <meshBasicMaterial color='white' side={THREE.DoubleSide} />
+        </mesh>
+        <mesh ref={pooRef} position={[0, 0, 0]} scale={0.1}>
+          <circleGeometry args={[1.1, 64]} />
+          <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
       </Billboard>
     </group>
