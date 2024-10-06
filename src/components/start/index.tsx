@@ -30,7 +30,7 @@ export function StartScreen(props: StartScreenProps) {
   }, []);
 
   return (
-    <Html className='flex text-center font-semibold' fullscreen>
+    <Html className='flex text-center font-semibold' fullscreen style={{ zIndex: onClose ? 10 : 0 }}>
       <div
         className='absolute w-full h-full bg-black transition-all duration-1000'
         style={{ opacity: backgroundOpacity }}
