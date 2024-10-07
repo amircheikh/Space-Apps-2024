@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import pLimit from 'p-limit';
 
 export async function GET(req) {
   const planetCommands = {
@@ -20,85 +21,97 @@ export async function GET(req) {
   const startTime = `${dateString} 00:00:00`;
   const stopTime = `${dateString} 00:01:00`;
 
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   try {
-    // we fetch data for all planets concurrently
-    const fetchPromises = Object.entries(planetCommands).map(async ([planetName, command]) => {
-      const params = {
-        format: 'text',
-        COMMAND: `'${command}'`,
-        OUT_UNITS: "'AU-D'",
-        OBJ_DATA: "'NO'",
-        MAKE_EPHEM: "'YES'",
-        EPHEM_TYPE: "'VECTORS'",
-        CENTER: "'500@0'",
-        START_TIME: `'${startTime}'`,
-        STOP_TIME: `'${stopTime}'`,
-        STEP_SIZE: "'1d'",
-      };
+    const limit = pLimit(2);
 
-      const queryString = Object.keys(params)
-        .map((key) => `${key}=${encodeURIComponent(params[key])}`)
-        .join('&');
+    const fetchPromises = Object.entries(planetCommands).map(([planetName, command], index) => {
+      return limit(async () => {
+        // we add delay between requests
+        await delay(index * 100);
 
-      const url = `https://ssd.jpl.nasa.gov/api/horizons.api?${queryString}`;
+        const params = {
+          format: 'text',
+          COMMAND: `'${command}'`,
+          OUT_UNITS: "'AU-D'",
+          OBJ_DATA: "'NO'",
+          MAKE_EPHEM: "'YES'",
+          EPHEM_TYPE: "'VECTORS'",
+          CENTER: "'500@0'",
+          START_TIME: `'${startTime}'`,
+          STOP_TIME: `'${stopTime}'`,
+          STEP_SIZE: "'1d'",
+        };
 
-      const apiRes = await fetch(url);
+        const queryString = Object.keys(params)
+          .map((key) => `${key}=${encodeURIComponent(params[key])}`)
+          .join('&');
 
-      if (!apiRes.ok) {
-        const errorDetails = await apiRes.text();
-        console.error(`Horizons API returned status ${apiRes.status} for ${planetName}: ${errorDetails}`);
-        return { planetName, error: errorDetails };
-      }
+        const url = `https://ssd.jpl.nasa.gov/api/horizons.api?${queryString}`;
 
-      const rawData = await apiRes.text();
+        const apiRes = await fetch(url);
 
-      const resultLines = rawData.split('\n');
-      const startIndex = resultLines.indexOf('$$SOE');
-      const endIndex = resultLines.indexOf('$$EOE');
-
-      if (startIndex === -1 || endIndex === -1) {
-        const errorMessage = 'No data found between $$SOE and $$EOE markers.';
-        console.error(`Error for ${planetName}: ${errorMessage}`);
-        return { planetName, error: errorMessage };
-      }
-
-      const dataLines = resultLines.slice(startIndex + 1, endIndex);
-
-      const parsedData = [];
-      let i = 0;
-
-      while (i < dataLines.length) {
-        const line1 = dataLines[i].trim();
-        const line2 = dataLines[i + 1]?.trim();
-        const line3 = dataLines[i + 2]?.trim();
-
-        const jdMatch = line1.match(/^(\d+\.\d+)\s+=\s+(.+)/);
-        if (jdMatch) {
-          const time = jdMatch[1];
-          const datetime = jdMatch[2];
-
-          const xyzMatch = line2.match(/X\s*=\s*([\dE+-.]+)\s+Y\s*=\s*([\dE+-.]+)\s+Z\s*=\s*([\dE+-.]+)/);
-          const vxvyvzMatch = line3.match(/VX\s*=\s*([\dE+-.]+)\s+VY\s*=\s*([\dE+-.]+)\s+VZ\s*=\s*([\dE+-.]+)/);
-
-          if (xyzMatch && vxvyvzMatch) {
-            const x = parseFloat(xyzMatch[1]);
-            const y = parseFloat(xyzMatch[2]);
-            const z = parseFloat(xyzMatch[3]);
-
-            const vx = parseFloat(vxvyvzMatch[1]);
-            const vy = parseFloat(vxvyvzMatch[2]);
-            const vz = parseFloat(vxvyvzMatch[3]);
-
-            parsedData.push({ time, datetime, x, y, z, vx, vy, vz });
-          }
-
-          i += 4;
-        } else {
-          i++;
+        if (!apiRes.ok) {
+          const errorDetails = await apiRes.text();
+          console.error(`Horizons API returned status ${apiRes.status} for ${planetName}:`, errorDetails);
+          return { planetName, error: errorDetails };
         }
-      }
 
-      return { planetName, data: parsedData };
+        const rawData = await apiRes.text();
+
+        // Parse the response to extract data
+        const resultLines = rawData.split('\n');
+        const startIndex = resultLines.indexOf('$$SOE');
+        const endIndex = resultLines.indexOf('$$EOE');
+
+        if (startIndex === -1 || endIndex === -1) {
+          const errorMessage = 'No data found between $$SOE and $$EOE markers.';
+          console.error(`Error for ${planetName}: ${errorMessage}`);
+          return { planetName, error: errorMessage };
+        }
+
+        // Extract and format the data lines
+        const dataLines = resultLines.slice(startIndex + 1, endIndex);
+
+        const parsedData = [];
+        let i = 0;
+
+        while (i < dataLines.length) {
+          const line1 = dataLines[i].trim();
+          const line2 = dataLines[i + 1]?.trim();
+          const line3 = dataLines[i + 2]?.trim();
+
+          const jdMatch = line1.match(/^(\d+\.\d+)\s+=\s+(.+)/);
+          if (jdMatch) {
+            const time = jdMatch[1];
+            const datetime = jdMatch[2];
+
+            const xyzMatch = line2.match(/X\s*=\s*([\dE+-.]+)\s+Y\s*=\s*([\dE+-.]+)\s+Z\s*=\s*([\dE+-.]+)/);
+            const vxvyvzMatch = line3.match(/VX\s*=\s*([\dE+-.]+)\s+VY\s*=\s*([\dE+-.]+)\s+VZ\s*=\s*([\dE+-.]+)/);
+
+            if (xyzMatch && vxvyvzMatch) {
+              const x = parseFloat(xyzMatch[1]);
+              const y = parseFloat(xyzMatch[2]);
+              const z = parseFloat(xyzMatch[3]);
+
+              const vx = parseFloat(vxvyvzMatch[1]);
+              const vy = parseFloat(vxvyvzMatch[2]);
+              const vz = parseFloat(vxvyvzMatch[3]);
+
+              parsedData.push({ time, datetime, x, y, z, vx, vy, vz });
+            }
+
+            i += 4;
+          } else {
+            i++;
+          }
+        }
+
+        return { planetName, data: parsedData };
+      });
     });
 
     const results = await Promise.all(fetchPromises);
