@@ -3,6 +3,7 @@ export const MAX_VISIBLE_DISTANCE = 2000; // CHANGE THIS LATER
 export const MIN_VISIBLE_DISTANCE = 24000; // CHANGE THIS LATER
 export const MIN_DOLLY_DISTANCE = 0
 export const MAX_DOLLY_DISTANCE = 150000
+export const MIN_RADIUS = 10;
 
 export const PLANET_SCALES = {
    SUN: 1,                  // Base scale for the Sun
