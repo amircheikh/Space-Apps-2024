@@ -35,6 +35,8 @@ export function PlanetAndOrbit({
   const [sMinor, setSMinor] = useState(1);
   const [planetPos, setPlanetPos] = useState<[number, number, number]>([0, 0, 0]);
   const [inclination, setInclination] = useState(0);
+  const [longitudeOfAscendingNode, setLongitudeOfAscendingNode] = useState(0);
+  const [argumentOfPeriapsis, setArgumentOfPeriapsis] = useState(0);
 
   useEffect(() => {
     const planetData = planetOrbitalData[name];
@@ -43,6 +45,8 @@ export function PlanetAndOrbit({
       setSMajor(planetData.semiMajorAxis * ORBIT_MULTIPLIER);
       setSMinor(planetData.semiMinorAxis * ORBIT_MULTIPLIER);
       setInclination(planetData.inclination);
+      setLongitudeOfAscendingNode(planetData.longitudeOfAscendingNode);
+      setArgumentOfPeriapsis(planetData.argumentOfPeriapsis);
     }
 
     if (horizonData && horizonData.length) {
@@ -77,10 +81,14 @@ export function PlanetAndOrbit({
         hoverColor={hoverColor[name]}
       />
       <PlanetOrbit
+        name={name}
         sMajor={sMajor}
         sMinor={sMinor}
+        inclination={inclination}
+        longitudeOfAscendingNode={longitudeOfAscendingNode}
+        argumentOfPeriapsis={argumentOfPeriapsis}
         position={orbitPosition}
-        rotation={new THREE.Euler(inclination, 0, 0)}
+        rotation={new THREE.Euler(0, 0, 0)}
         color={planetColors[name]}
         hoverColor={hoverColor[name]}
         onClick={() => onClick(new Vector3(planetPos[0], planetPos[1], planetPos[2]), scale)}

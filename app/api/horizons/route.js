@@ -40,7 +40,7 @@ export async function GET(req) {
           OBJ_DATA: "'NO'",
           MAKE_EPHEM: "'YES'",
           EPHEM_TYPE: "'VECTORS'",
-          CENTER: "'500@0'",
+          CENTER: "'500@10'",
           START_TIME: `'${startTime}'`,
           STOP_TIME: `'${stopTime}'`,
           STEP_SIZE: "'1d'",

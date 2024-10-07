@@ -100,6 +100,7 @@ export function Planet(props: PlanetProps) {
       <primitive
         ref={shapeRef}
         object={model.scene}
+        rotation={[1.5708, 0, 0]}
         scale={[0.1 * scale, 0.1 * scale, 0.1 * scale]}
         position={modelPosition}
       />

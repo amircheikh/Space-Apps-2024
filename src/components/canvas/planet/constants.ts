@@ -17,6 +17,17 @@ export const PLANET_SCALES = {
    NEPTUNE: 0.0354,
  };
 
+ export const PLANET_OFFSETS = {
+  Mercury: 0.0796,
+  Venus: 0.0049,
+  Earth: 0.0167,
+  Mars: 0.1423,
+  Jupiter: 0.2543,
+  Saturn: 0.5386,
+  Uranus: 0.8905,
+  Neptune: 0.2608,
+};
+
  export const planetColors = {
   Sun: '#f7f4df',
   Mercury: '#9768ac', 
