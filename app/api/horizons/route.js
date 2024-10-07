@@ -1,4 +1,3 @@
-import https from 'https';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
@@ -13,7 +12,6 @@ export async function GET(req) {
     Neptune: '899',
   };
 
-  const agent = new https.Agent({ maxSockets: 20 });
   const today = new Date();
   const yyyy = today.getUTCFullYear();
   const mm = String(today.getUTCMonth() + 1).padStart(2, '0');
@@ -27,7 +25,7 @@ export async function GET(req) {
     const fetchPromises = Object.entries(planetCommands).map(async ([planetName, command]) => {
       const url = `https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27${encodeURIComponent(command)}%27&OUT_UNITS=%27AU-D%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500@0%27&START_TIME=%27${startTime}%27&STOP_TIME=%27${stopTime}%27&STEP_SIZE=%271d%27 `;
 
-      const apiRes = await fetch(url, { agent });
+      const apiRes = await fetch(url);
 
       if (!apiRes.ok) {
         const errorDetails = await apiRes.text();
