@@ -23,7 +23,24 @@ export async function GET(req) {
   try {
     // we fetch data for all planets concurrently
     const fetchPromises = Object.entries(planetCommands).map(async ([planetName, command]) => {
-      const url = `https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27${encodeURIComponent(command)}%27&OUT_UNITS=%27AU-D%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500@0%27&START_TIME=%27${startTime}%27&STOP_TIME=%27${stopTime}%27&STEP_SIZE=%271d%27 `;
+      const params = {
+        format: 'text',
+        COMMAND: `'${command}'`,
+        OUT_UNITS: "'AU-D'",
+        OBJ_DATA: "'NO'",
+        MAKE_EPHEM: "'YES'",
+        EPHEM_TYPE: "'VECTORS'",
+        CENTER: "'500@0'",
+        START_TIME: `'${startTime}'`,
+        STOP_TIME: `'${stopTime}'`,
+        STEP_SIZE: "'1d'",
+      };
+
+      const queryString = Object.keys(params)
+        .map((key) => `${key}=${encodeURIComponent(params[key])}`)
+        .join('&');
+
+      const url = `https://ssd.jpl.nasa.gov/api/horizons.api?${queryString}`;
 
       const apiRes = await fetch(url);
 
@@ -35,7 +52,6 @@ export async function GET(req) {
 
       const rawData = await apiRes.text();
 
-      // parse the response to extract data
       const resultLines = rawData.split('\n');
       const startIndex = resultLines.indexOf('$$SOE');
       const endIndex = resultLines.indexOf('$$EOE');
@@ -46,7 +62,6 @@ export async function GET(req) {
         return { planetName, error: errorMessage };
       }
 
-      // extract and format the data lines
       const dataLines = resultLines.slice(startIndex + 1, endIndex);
 
       const parsedData = [];
@@ -56,16 +71,13 @@ export async function GET(req) {
         const line1 = dataLines[i].trim();
         const line2 = dataLines[i + 1]?.trim();
         const line3 = dataLines[i + 2]?.trim();
-        const line4 = dataLines[i + 3]?.trim();
 
         const jdMatch = line1.match(/^(\d+\.\d+)\s+=\s+(.+)/);
         if (jdMatch) {
           const time = jdMatch[1];
           const datetime = jdMatch[2];
 
-          // Parse X, Y, Z
           const xyzMatch = line2.match(/X\s*=\s*([\dE+-.]+)\s+Y\s*=\s*([\dE+-.]+)\s+Z\s*=\s*([\dE+-.]+)/);
-          // Parse VX, VY, VZ
           const vxvyvzMatch = line3.match(/VX\s*=\s*([\dE+-.]+)\s+VY\s*=\s*([\dE+-.]+)\s+VZ\s*=\s*([\dE+-.]+)/);
 
           if (xyzMatch && vxvyvzMatch) {
