@@ -14,11 +14,18 @@ export async function GET(req) {
   };
 
   const agent = new https.Agent({ maxSockets: 20 });
+  const today = new Date();
+  const yyyy = today.getUTCFullYear();
+  const mm = String(today.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(today.getUTCDate()).padStart(2, '0');
+  const dateString = `${yyyy}-${mm}-${dd}`;
+  const startTime = `${dateString} 00:00:00`;
+  const stopTime = `${dateString} 00:01:00`;
 
   try {
     // we fetch data for all planets concurrently
     const fetchPromises = Object.entries(planetCommands).map(async ([planetName, command]) => {
-      const url = `https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27${encodeURIComponent(command)}%27&OUT_UNITS=%27AU-D%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500@0%27&START_TIME=%272024-10-01%27&STOP_TIME=%272024-10-02%27&STEP_SIZE=%271d%27 `;
+      const url = `https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%27${encodeURIComponent(command)}%27&OUT_UNITS=%27AU-D%27&OBJ_DATA=%27NO%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500@0%27&START_TIME=%27${startTime}%27&STOP_TIME=%27${stopTime}%27&STEP_SIZE=%271d%27 `;
 
       const apiRes = await fetch(url, { agent });
 
